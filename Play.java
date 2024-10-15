@@ -30,7 +30,7 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
-        int startX = screenWidth / 3;
+        int startX = screenWidth / 2;
         int startY = screenHeight / 2;
 
         player = new Character(startX, startY); 

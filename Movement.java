@@ -1,4 +1,4 @@
-package CBLPROTOTYPE.src;
+package CBL;
 
 public class Movement {
     private int x, y; 

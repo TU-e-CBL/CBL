@@ -24,7 +24,7 @@ public class Rooms {
         walls.add(new Wall(screenWidth - 100, 0, 100, screenHeight)); // Right wall
 
         // Initialize doors for Room 1
-        doors.add(new Door(300, 300, 50, 10)); // Example door in Room 1
+        doors.add(new Door(300, 100, 50, 10)); // Example door in Room 1
     }
 
     // Method to initialize walls for Room 2
@@ -33,13 +33,13 @@ public class Rooms {
         doors.clear(); // Clear any previous doors
 
         // Room 2 layout - different walls
-        walls.add(new Wall(0, 0, screenWidth, 250)); // Thinner top wall
+        walls.add(new Wall(0, 0, screenWidth, 50)); // Thinner top wall
         walls.add(new Wall(0, screenHeight - 50, screenWidth, 50)); // Thinner bottom wall
         walls.add(new Wall(0, 0, 50, screenHeight)); // Thinner left wall
         walls.add(new Wall(screenWidth - 50, 0, 50, screenHeight)); // Thinner right wall
 
         // Initialize doors for Room 2
-        doors.add(new Door(500, 500, 60, 15)); // Example door in Room 2
+        doors.add(new Door(screenWidth - 600, 50, 60, 15)); // Example door in Room 2
     }
 
     // Method to draw walls and doors for the current room

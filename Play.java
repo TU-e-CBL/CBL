@@ -138,7 +138,7 @@ public class Play extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Game with Character");
+        JFrame frame = new JFrame("Play");
         Play playPanel = new Play();
 
         frame.setUndecorated(true); 

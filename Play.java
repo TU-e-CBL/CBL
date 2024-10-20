@@ -1,16 +1,14 @@
-package CBLPROTOTYPE.src;
+package CBL;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
 
 public class Play extends JPanel implements ActionListener {
 
     private Character player; 
-    private List<Wall> walls;
     private Collision collision; 
+    private Rooms rooms;
 
     private boolean upPressed = false;
     private boolean downPressed = false;
@@ -34,13 +32,10 @@ public class Play extends JPanel implements ActionListener {
         int startY = screenHeight / 2;
 
         player = new Character(startX, startY); 
-        collision = new Collision(); 
-        walls = new ArrayList<>();
+        rooms = new Rooms();
+        collision = new Collision(rooms, this::repaint);
 
-        walls.add(new Wall(0, 0, screenWidth, 100)); 
-        walls.add(new Wall(0, screenHeight - 100, screenWidth, 100)); // Bottom Wall
-        walls.add(new Wall(0, 0, 100, screenHeight)); // Left Wall
-        walls.add(new Wall(screenWidth - 100, 0, 100, screenHeight)); // Right Wall
+        rooms.initRoom1(screenWidth, screenHeight);
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -104,12 +99,7 @@ public class Play extends JPanel implements ActionListener {
         
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
-        g.setColor(Color.WHITE); // Change wall color to white
-        for (Wall wall : walls) {
-            wall.draw(g); // Draw each wall
-        }
-
-        // Draw player character
+        rooms.drawObjects(g);
         player.draw(g);
     }
 
@@ -119,8 +109,7 @@ public class Play extends JPanel implements ActionListener {
         int prevX = player.getX();
         int prevY = player.getY();
 
-        // Use the collision manager to resolve movement
-        collision.resolveMovement(player.getMovement(), prevX, prevY, walls, 
+        collision.resolveMovement(player.getMovement(), prevX, prevY, rooms.getWalls(), rooms.getDoors(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
         // Update character's position
@@ -131,7 +120,6 @@ public class Play extends JPanel implements ActionListener {
     }
 
     private void minimizeWindow() {
-        // Minimize the window
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.setState(JFrame.ICONIFIED);
@@ -139,7 +127,6 @@ public class Play extends JPanel implements ActionListener {
     }
 
     private void closeWindow() {
-        // Close the application
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.dispose();
@@ -156,7 +143,7 @@ public class Play extends JPanel implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        // Optionally, request focus to the play panel
+        // Request focus to the play panel
         playPanel.requestFocusInWindow();
     }
 }

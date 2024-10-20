@@ -1,4 +1,4 @@
-package CBLPROTOTYPE.src;
+package CBL;
 
 import java.awt.Graphics;
 

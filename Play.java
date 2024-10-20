@@ -100,7 +100,6 @@ public class Play extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         rooms.drawObjects(g);
-        // Draw player character
         player.draw(g);
     }
 
@@ -110,7 +109,6 @@ public class Play extends JPanel implements ActionListener {
         int prevX = player.getX();
         int prevY = player.getY();
 
-        // Use the collision manager to resolve movement
         collision.resolveMovement(player.getMovement(), prevX, prevY, rooms.getWalls(), rooms.getDoors(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
@@ -122,7 +120,6 @@ public class Play extends JPanel implements ActionListener {
     }
 
     private void minimizeWindow() {
-        // Minimize the window
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.setState(JFrame.ICONIFIED);
@@ -130,7 +127,6 @@ public class Play extends JPanel implements ActionListener {
     }
 
     private void closeWindow() {
-        // Close the application
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.dispose();
@@ -147,7 +143,7 @@ public class Play extends JPanel implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        // Optionally, request focus to the play panel
+        // Request focus to the play panel
         playPanel.requestFocusInWindow();
     }
 }

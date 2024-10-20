@@ -13,44 +13,49 @@ public class Rooms {
         doors = new ArrayList<>();
     }
 
-    // Method to initialize walls for Room 1
     public void initRoom1(int screenWidth, int screenHeight) {
-        walls.clear(); // Clear any previous walls
-        doors.clear(); // Clear any previous doors
+        walls.clear();
+        doors.clear(); 
 
-        walls.add(new Wall(0, 0, screenWidth, 100)); // Top wall
-        walls.add(new Wall(0, screenHeight - 100, screenWidth, 100)); // Bottom wall
-        walls.add(new Wall(0, 0, 100, screenHeight)); // Left wall
-        walls.add(new Wall(screenWidth - 100, 0, 100, screenHeight)); // Right wall
+        walls.add(new Wall(0, 0, screenWidth, 100));
+        walls.add(new Wall(0, screenHeight - 100, screenWidth, 100));
+        walls.add(new Wall(0, 0, 100, screenHeight)); 
+        walls.add(new Wall(screenWidth - 100, 0, 100, screenHeight));
 
-        // Initialize doors for Room 1
-        doors.add(new Door(300, 300, 50, 10)); // Example door in Room 1
+        doors.add(new Door(300, 300, 50, 10, 2)); 
+        doors.add(new Door(500, 300, 50, 10, 3));
+
     }
 
-    // Method to initialize walls for Room 2
     public void initRoom2(int screenWidth, int screenHeight) {
-        walls.clear(); // Clear any previous walls
-        doors.clear(); // Clear any previous doors
+        walls.clear(); 
+        doors.clear();
 
-        // Room 2 layout - different walls
-        walls.add(new Wall(0, 0, screenWidth, 250)); // Thinner top wall
-        walls.add(new Wall(0, screenHeight - 50, screenWidth, 50)); // Thinner bottom wall
-        walls.add(new Wall(0, 0, 50, screenHeight)); // Thinner left wall
-        walls.add(new Wall(screenWidth - 50, 0, 50, screenHeight)); // Thinner right wall
+        walls.add(new Wall(0, 0, screenWidth, 250)); 
+        walls.add(new Wall(0, screenHeight - 50, screenWidth, 50));
+        walls.add(new Wall(0, 0, 50, screenHeight)); 
+        walls.add(new Wall(screenWidth - 50, 0, 50, screenHeight));
 
-        // Initialize doors for Room 2
-        doors.add(new Door(500, 500, 60, 15)); // Example door in Room 2
+        doors.add(new Door(500, 500, 60, 15, 1)); 
+
+    }
+    public void initRoom3(int screenWidth, int screenHeight) {
+        walls.clear();
+        doors.clear();
+
+        walls.add(new Wall(0, 0, screenWidth, 100)); 
+        doors.add(new Door(200, 200, 50, 10, 1)); 
     }
 
-    // Method to draw walls and doors for the current room
+    // Draws walls and doors for the current room
     public void drawObjects(Graphics g) {
         
-        g.setColor(Color.WHITE); // Change wall color to white
+        g.setColor(Color.WHITE); 
         for (Wall wall : walls) {
-            wall.draw(g); // Draw each wall
+            wall.draw(g); 
         }
         for (Door door : doors) {
-            door.draw(g); // Draw each door
+            door.draw(g); 
         }
     }
 

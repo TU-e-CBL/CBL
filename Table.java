@@ -1,14 +1,14 @@
 package CBL;
 
-import java.awt.Graphics;
+import java.awt.*;
 
-public class Door {
+public class Table {
     private int x, y;
     private int width;
     private int height;
     private int targetRoomId;
 
-    public Door(int x, int y, int width, int height, int targetRoomId) {
+    public Table(int x, int y, int width, int height, int targetRoomId) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -20,11 +20,8 @@ public class Door {
         g.fillRect(x, y, width, height);
     }
 
-    public boolean enteredDoor(int charX, int charY, int charWidth, int charHeight) {
+    public boolean collidesWith(int charX, int charY, int charWidth, int charHeight) {
         return (charX < x + width && charX + charWidth > x &&
                 charY < y + height && charY + charHeight > y);
-    }
-    public int getTargetRoomId() {
-        return targetRoomId;  // Return the room ID this door leads to
     }
 }

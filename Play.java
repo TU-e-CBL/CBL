@@ -28,54 +28,56 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
-        int startX = screenWidth / 2;
-        int startY = screenHeight / 2;
+        int startX = screenWidth / 2 - 40;
+        int startY = screenHeight / 2 - 45;
 
-        player = new Character(startX, startY); 
+        player = new Character(startX, startY, 4); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
 
         rooms.initRoom1(screenWidth, screenHeight);
 
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_W:
-                        upPressed = true;
-                        break;
-                    case KeyEvent.VK_S:
-                        downPressed = true;
-                        break;
-                    case KeyEvent.VK_A:
-                        leftPressed = true;
-                        break;
-                    case KeyEvent.VK_D:
-                        rightPressed = true;
-                        break;
+        addKeyListener(
+            new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    int keyCode = e.getKeyCode();
+                    switch (keyCode) {
+                        case KeyEvent.VK_W:
+                            upPressed = true;
+                            break;
+                        case KeyEvent.VK_S:
+                            downPressed = true;
+                            break;
+                        case KeyEvent.VK_A:
+                            leftPressed = true;
+                            break;
+                        case KeyEvent.VK_D:
+                            rightPressed = true;
+                            break;
+                    }
                 }
-            }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_W:
-                        upPressed = false;
-                        break;
-                    case KeyEvent.VK_S:
-                        downPressed = false;
-                        break;
-                    case KeyEvent.VK_A:
-                        leftPressed = false;
-                        break;
-                    case KeyEvent.VK_D:
-                        rightPressed = false;
-                        break;
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    int keyCode = e.getKeyCode();
+                    switch (keyCode) {
+                        case KeyEvent.VK_W:
+                            upPressed = false;
+                            break;
+                        case KeyEvent.VK_S:
+                            downPressed = false;
+                            break;
+                        case KeyEvent.VK_A:
+                            leftPressed = false;
+                            break;
+                        case KeyEvent.VK_D:
+                            rightPressed = false;
+                            break;
+                    }
                 }
             }
-        });
+        );
         // smooth movement
         
         JPanel controlPanel = new JPanel();
@@ -100,7 +102,6 @@ public class Play extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         rooms.drawObjects(g);
-        // Draw player character
         player.draw(g);
     }
 
@@ -110,19 +111,17 @@ public class Play extends JPanel implements ActionListener {
         int prevX = player.getX();
         int prevY = player.getY();
 
-        // Use the collision manager to resolve movement
-        collision.resolveMovement(player.getMovement(), prevX, prevY, rooms.getWalls(), rooms.getDoors(),
+        collision.resolveMovement(player, prevX, prevY, rooms.getWalls(), rooms.getDoors(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
         // Update character's position
-        player.setPosition(player.getMovement().getX(), player.getMovement().getY());
+        player.setPosition(player.getX(), player.getY());
 
         // Repaint to reflect position changes
         repaint();
     }
 
     private void minimizeWindow() {
-        // Minimize the window
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.setState(JFrame.ICONIFIED);
@@ -130,7 +129,6 @@ public class Play extends JPanel implements ActionListener {
     }
 
     private void closeWindow() {
-        // Close the application
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame != null) {
             topFrame.dispose();
@@ -147,7 +145,7 @@ public class Play extends JPanel implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
-        // Optionally, request focus to the play panel
+        // Request focus to the play panel
         playPanel.requestFocusInWindow();
     }
 }

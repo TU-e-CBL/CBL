@@ -3,19 +3,15 @@ package CBL;
 import java.awt.*;
 import java.util.List;
 
-
-
 public class Collision {
     private Rooms rooms;
     private Runnable repaintCallback;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    
-    
     int screenWidth = (int) screenSize.getWidth();
     int screenHeight = (int) screenSize.getHeight();
 
-    public Collision(Rooms rooms, Runnable repaintCallback) {  // Pass the Rooms instance
+    public Collision(Rooms rooms, Runnable repaintCallback) {
         this.rooms = rooms;
         this.repaintCallback = repaintCallback;
     }
@@ -28,57 +24,61 @@ public class Collision {
         }
         return false;
     }
-    public boolean enteredDoor(int charX, int charY, int charWidth, int charHeight, List<Door> doors) {
+
+    public Door enteredDoor(int charX, int charY, int charWidth, int charHeight, List<Door> doors) {
         for (Door door : doors) {
             if (door.enteredDoor(charX, charY, charWidth, charHeight)) {
-                return true;
+                return door;
             }
         }
-        return false;
+        return null;
     }
 
-    public void resolveMovement(Movement movement, int prevX, int prevY, 
+    public void resolveMovement(Character player, int prevX, int prevY, 
                                 List<Wall> walls, List<Door> doors,
                                 boolean upPressed, boolean downPressed, 
                                 boolean leftPressed, boolean rightPressed) {
-        int currentX = movement.getX();
-        int currentY = movement.getY();
-        
+        int currentX = player.getX();
+        int currentY = player.getY();
+
         if (upPressed) {
-            currentY -= movement.getSpeed(); // Move up
-            if (checkCollision(currentX, currentY, movement.getWidth(), 
-                            movement.getHeight(), walls)) {
-                currentY = prevY; // Revert to previous position if collision occurs
-            } else if (enteredDoor(currentX, currentY, movement.getWidth(), 
-                            movement.getHeight(), doors)) {
-                rooms.initRoom2(screenWidth, screenHeight);
-                repaintCallback.run();  
-            }
-            
+            currentY -= player.getSpeed();
+        } else if (downPressed) {
+            currentY += player.getSpeed();
         }
 
-        if (downPressed) {
-            currentY += movement.getSpeed(); // Move down
-            if (checkCollision(currentX, currentY, movement.getWidth(), 
-                        movement.getHeight(), walls)) {
-                currentY = prevY; // Revert to previous position if collision occurs
-            }
+        if((upPressed || downPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), walls)) {
+            currentY = prevY;
         }
 
         if (leftPressed) {
-            currentX -= movement.getSpeed(); // Move left
-            if (checkCollision(currentX, currentY, movement.getWidth(), movement.getHeight(), walls)) {
-                currentX = prevX; // Revert to previous position if collision occurs
-            }
+            currentX -= player.getSpeed();
+        } else if (rightPressed) {
+            currentX += player.getSpeed();
         }
 
-        if (rightPressed) {
-            currentX += movement.getSpeed(); // Move right
-            if (checkCollision(currentX, currentY, movement.getWidth(), movement.getHeight(), walls)) {
-                currentX = prevX; // Revert to previous position if collision occurs
+        if ((leftPressed || rightPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), walls)) {
+            currentX = prevX;
+        } 
+        
+        // Check if a door is entered and switch to the room associated with the door
+        Door enteredDoor = enteredDoor(currentX, currentY, player.getWidth(), player.getHeight(), doors);
+        if (enteredDoor != null) {
+            int targetRoomId = enteredDoor.getTargetRoomId();
+            switch (targetRoomId) {
+                case 1:
+                    rooms.initRoom1(screenWidth, screenHeight);
+                    break;
+                case 2:
+                    rooms.initRoom2(screenWidth, screenHeight);
+                    break;
+                case 3:
+                    rooms.initRoom3(screenWidth, screenHeight);
+                    break;
             }
+            repaintCallback.run();
         }
 
-        movement.setPosition(currentX, currentY);
+        player.setPosition(currentX, currentY);
     }
 }

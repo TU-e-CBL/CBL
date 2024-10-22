@@ -16,9 +16,9 @@ public class Collision {
         this.repaintCallback = repaintCallback;
     }
 
-    public boolean checkCollision(int charX, int charY, int charWidth, int charHeight, List<Wall> walls) {
-        for (Wall wall : walls) {
-            if (wall.collidesWith(charX, charY, charWidth, charHeight)) {
+    public boolean checkCollision(int charX, int charY, int charWidth, int charHeight, List<GameObject> objects) {
+        for (GameObject object : objects) {
+            if (object.collidesWith(charX, charY, charWidth, charHeight)) {
                 return true;
             }
         }
@@ -35,7 +35,7 @@ public class Collision {
     }
 
     public void resolveMovement(Character player, int prevX, int prevY, 
-                                List<Wall> walls, List<Door> doors,
+                                List<GameObject> objects, List<Door> doors,
                                 boolean upPressed, boolean downPressed, 
                                 boolean leftPressed, boolean rightPressed) {
         int currentX = player.getX();
@@ -47,7 +47,7 @@ public class Collision {
             currentY += player.getSpeed();
         }
 
-        if((upPressed || downPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), walls)) {
+        if((upPressed || downPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), objects)) {
             currentY = prevY;
         }
 
@@ -57,7 +57,7 @@ public class Collision {
             currentX += player.getSpeed();
         }
 
-        if ((leftPressed || rightPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), walls)) {
+        if ((leftPressed || rightPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), objects)) {
             currentX = prevX;
         } 
         

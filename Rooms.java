@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rooms {
+    private List<GameObject> objects;
     private List<Wall> walls;
     private List<Door> doors;
+    private List<Table> tables;
 
     public Rooms() {
+        objects = new ArrayList<>();
         walls = new ArrayList<>();
         doors = new ArrayList<>();
+        tables = new ArrayList<>();
     }
 
     public void initRoom1(int screenWidth, int screenHeight) {
@@ -27,6 +31,8 @@ public class Rooms {
         // door_targetRoomId
         doors.add(door_2); 
         doors.add(door_3);
+
+        tables.add(new Table(800, 800, 200, 100));
     }
 
     public void initRoom2(int screenWidth, int screenHeight) {
@@ -53,12 +59,16 @@ public class Rooms {
     public void drawObjects(Graphics g) {
         
         g.setColor(Color.WHITE); 
-        for (Wall wall : walls) {
+        for (GameObject object : objects) {
             wall.draw(g); 
         }
         for (Door door : doors) {
             door.draw(g); 
         }
+    }
+
+    public List<GameObject> getObjects() {
+        return objects;
     }
 
     public List<Wall> getWalls() {

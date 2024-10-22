@@ -29,9 +29,9 @@ public class Play extends JPanel implements ActionListener {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
         int startX = screenWidth / 2 - 40;
-        int startY = screenHeight / 2 - 45;
+        int startY = screenHeight - 200;
 
-        player = new Character(startX, startY, 4); 
+        player = new Character(startX, startY, 80, 90, 4); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
 
@@ -111,7 +111,7 @@ public class Play extends JPanel implements ActionListener {
         int prevX = player.getX();
         int prevY = player.getY();
 
-        collision.resolveMovement(player, prevX, prevY, rooms.getObjects(), rooms.getDoors(),
+        collision.resolveMovement(player, prevX, prevY, rooms.getObjects(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
         // Update character's position

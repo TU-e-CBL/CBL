@@ -3,43 +3,20 @@ package CBL;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Character {
-    private int x, y; 
-    private int speed; 
-    private int width = 80; 
-    private int height = 90;
+public class Character extends GameObject{ 
 
-    public Character(int startX, int startY, int speed) {
-        this.x = startX;
-        this.y = startY;
+    private int speed;
+
+    public Character(int startX, int startY, int width, int height, int speed) {
+        super(startX, startY, width, height);
         this.speed = speed;
-    }
-
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public int getSpeed() {
         return speed;
     }
 
-    public int getWidth() {
-        return width; 
-    }
-
-    public int getHeight() {
-        return height; 
-    }
-
+    @Override
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width, height - 40); 

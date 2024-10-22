@@ -7,6 +7,7 @@ public class Wall extends GameObject {
         super(x, y, width, height);
     }
 
+    @Override
     public void draw(Graphics g) {
         g.fillRect(x, y, width, height);
     }

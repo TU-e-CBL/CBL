@@ -18,6 +18,9 @@ public class Play extends JPanel implements ActionListener {
     private JButton minimizeButton;
     private JButton closeButton;
 
+    public static int screenWidth;
+    public static int screenHeight;
+
     public Play() {
         Timer timer = new Timer(10, this);
         timer.start();
@@ -26,16 +29,15 @@ public class Play extends JPanel implements ActionListener {
         requestFocusInWindow(); 
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
+        screenWidth = (int) screenSize.getWidth();
+        screenHeight = (int) screenSize.getHeight();
         int startX = screenWidth / 2 - 40;
-        int startY = screenHeight - 200;
+        int startY =  screenHeight - 200;
 
         player = new Character(startX, startY, 80, 90, 4); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-
-        rooms.initRoom1(screenWidth, screenHeight);
+        rooms.initRoom1();
 
         addKeyListener(
             new KeyAdapter() {
@@ -103,6 +105,12 @@ public class Play extends JPanel implements ActionListener {
         g.fillRect(0, 0, getWidth(), getHeight());
         rooms.drawObjects(g);
         player.draw(g);
+        //* 
+        g.setColor(Color.BLACK);
+        for (int i = 0; i < getHeight(); i = i + 16) {
+            g.fillRect(0, i, getWidth(), 4);
+        }
+             //* */
     }
 
     @Override
@@ -137,15 +145,15 @@ public class Play extends JPanel implements ActionListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Play");
-        Play playPanel = new Play();
+        Play play = new Play();
 
         frame.setUndecorated(true); 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame.add(playPanel);
+        frame.add(play);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         
         // Request focus to the play panel
-        playPanel.requestFocusInWindow();
+        play.requestFocusInWindow();
     }
 }

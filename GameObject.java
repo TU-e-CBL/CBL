@@ -3,6 +3,7 @@ package CBL;
 import java.awt.Graphics;
 
 public abstract class GameObject {
+    
     protected int x, y;
     protected int width;
     protected int height;

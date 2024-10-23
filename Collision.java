@@ -4,13 +4,13 @@ import java.awt.*;
 import java.util.List;
 
 public class Collision {
+
     private Rooms rooms;
     private Runnable repaintCallback;
-
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int screenWidth = (int) screenSize.getWidth();
-    int screenHeight = (int) screenSize.getHeight();
-    int oldRoomId = 1;
+    private Door enteredDoor;
+    private int oldRoomId = 1;
+    private int screenWidth = Play.screenWidth;
+    private int screenHeight = Play.screenHeight;
 
     public Collision(Rooms rooms, Runnable repaintCallback) {
         this.rooms = rooms;
@@ -19,23 +19,18 @@ public class Collision {
 
     public boolean checkCollision(int charX, int charY, int charWidth, int charHeight, List<GameObject> objects) {
         for (GameObject object : objects) {
-            if (object.collidesWith(charX, charY, charWidth, charHeight) && !(object instanceof Door)) {
+            if (object.collidesWith(charX, charY, charWidth, charHeight)) {
+                if (object instanceof Door) {
+                    enteredDoor = (Door) object;
+                } else if (object instanceof Fisherman) {
+                    Fisherman fisherman = (Fisherman) object;
+                    fisherman.loadDialogue("Hello_there.txt");
+                    return false;
+                }
                 return true;
             } 
         }
         return false;
-    }
-
-    public Door enteredDoor(int charX, int charY, int charWidth, int charHeight, List<GameObject> objects) {
-        for (GameObject object : objects) {
-            if (object instanceof Door) {
-                Door door = (Door) object;
-                if (door.collidesWith(charX, charY, charWidth, charHeight)) {
-                    return door;
-                }
-            }
-        }
-        return null;
     }
     
     public void resolveMovement(Character player, int prevX, int prevY, 
@@ -67,7 +62,6 @@ public class Collision {
 
         player.setPosition(currentX, currentY);
         // Check if a door is entered and switch to the room associated with the door
-        Door enteredDoor = enteredDoor(currentX, currentY, player.getWidth(), player.getHeight(), objects);
         if (enteredDoor != null) {
             int targetRoomId = enteredDoor.getTargetRoomId();
             switch (targetRoomId) {
@@ -77,19 +71,20 @@ public class Collision {
                     } else {
                         player.setPosition(screenWidth / 2 - 40, 150);
                     }
-                    rooms.initRoom1(screenWidth, screenHeight);
+                    rooms.initRoom1();
                     break;
                 case 2:
-                    rooms.initRoom2(screenWidth, screenHeight);
-                    player.setPosition(screenWidth / 2, screenHeight / 2);
+                    rooms.initRoom2();
+                    player.setPosition(screenWidth - 200, 485);
                     break;
                 case 3:
-                    rooms.initRoom3(screenWidth, screenHeight);
+                    rooms.initRoom3();
                     player.setPosition(screenWidth / 2, screenHeight / 2);
                     break;
             }
             oldRoomId = targetRoomId;
             repaintCallback.run();
+            enteredDoor = null;
         }
     }
 }

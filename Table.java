@@ -1,10 +1,10 @@
 package CBL;
 
-import java.awt.color;
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Table extends GameObject {
+    
     public Table(int x, int y, int width, int height) {
         super(x, y, width, height);
     }

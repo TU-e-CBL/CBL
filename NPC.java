@@ -1,5 +1,0 @@
-package CBL;
-
-class NPC {
-  
-}

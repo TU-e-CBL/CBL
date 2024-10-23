@@ -10,10 +10,10 @@ public class Play extends JPanel implements ActionListener {
     private Collision collision; 
     private Rooms rooms;
 
-    private boolean upPressed = false;
-    private boolean downPressed = false;
-    private boolean leftPressed = false;
-    private boolean rightPressed = false;
+    public static boolean upPressed = false;
+    public static boolean downPressed = false;
+    public static boolean leftPressed = false;
+    public static boolean rightPressed = false;
 
     private JButton minimizeButton;
     private JButton closeButton;
@@ -34,7 +34,7 @@ public class Play extends JPanel implements ActionListener {
         int startX = screenWidth / 2 - 40;
         int startY =  screenHeight - 200;
 
-        player = new Character(startX, startY, 80, 90, 4); 
+        player = new Character(startX, startY, 80, 90, 12); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
         rooms.initRoom1();
@@ -144,16 +144,19 @@ public class Play extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Play");
-        Play play = new Play();
-
-        frame.setUndecorated(true); 
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        frame.add(play);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        SwingUtilities.invokeLater(
+            () -> {
+                JFrame frame = new JFrame("Play");
+                Play play = new Play();
         
-        // Request focus to the play panel
-        play.requestFocusInWindow();
-    }
+                frame.setUndecorated(true);
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.add(play); 
+                frame.setVisible(true); 
+        
+                play.requestFocusInWindow(); 
+            }
+        );
+    }    
 }

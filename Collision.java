@@ -2,6 +2,7 @@ package CBL;
 
 import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Collision {
 
@@ -23,8 +24,9 @@ public class Collision {
                 if (object instanceof Door) {
                     enteredDoor = (Door) object;
                 } else if (object instanceof Fisherman) {
-                    Fisherman fisherman = (Fisherman) object;
-                    fisherman.loadDialogue("Hello_there.txt");
+                    if (!((Fisherman)object).spoken) {
+                        ((Fisherman)object).interact();
+                    }
                     return false;
                 }
                 return true;

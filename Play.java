@@ -6,6 +6,9 @@ import javax.swing.*;
 
 public class Play extends JPanel implements ActionListener {
 
+    // public static CustomTextPanel textPanel;
+    public static TextPanel textPanel = new TextPanel();
+    public static Timer timer;
     private Character player; 
     private Collision collision; 
     private Rooms rooms;
@@ -22,7 +25,7 @@ public class Play extends JPanel implements ActionListener {
     public static int screenHeight;
 
     public Play() {
-        Timer timer = new Timer(10, this);
+        timer = new Timer(10, this);
         timer.start();
 
         setFocusable(true);
@@ -34,7 +37,7 @@ public class Play extends JPanel implements ActionListener {
         int startX = screenWidth / 2 - 40;
         int startY =  screenHeight - 200;
 
-        player = new Character(startX, startY, 80, 90, 12); 
+        player = new Character(startX, startY, 80, 90); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
         rooms.initRoom1();
@@ -148,14 +151,24 @@ public class Play extends JPanel implements ActionListener {
             () -> {
                 JFrame frame = new JFrame("Play");
                 Play play = new Play();
-        
+                textPanel.setVisible(false);
+                // Create a JLayeredPane
+                JLayeredPane layeredPane = new JLayeredPane();
+                layeredPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
+                // Add the Play panel
+                play.setBounds(0, 0, screenWidth, screenHeight);
+                layeredPane.add(play, Integer.valueOf(0));
+                // Add the CustomTextPanel 
+                layeredPane.add(textPanel, Integer.valueOf(1)); 
+
+                frame.add(layeredPane);
                 frame.setUndecorated(true);
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(play); 
+
                 frame.setVisible(true); 
-        
-                play.requestFocusInWindow(); 
+                play.requestFocusInWindow();
+
             }
         );
     }    

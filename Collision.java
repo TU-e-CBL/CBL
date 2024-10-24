@@ -33,7 +33,7 @@ public class Collision {
                 return true;
             } 
         }
-        return null;
+        return false;
     }
     
     public void resolveMovement(Character player, int prevX, int prevY, 

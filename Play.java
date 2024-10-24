@@ -122,6 +122,7 @@ public class Play extends JPanel implements ActionListener {
         int prevX = player.getX();
         int prevY = player.getY();
 
+
         collision.resolveMovement(player, prevX, prevY, rooms.getObjects(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 

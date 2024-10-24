@@ -17,6 +17,7 @@ public class Rooms {
         objects = new ArrayList<>();
     }
 
+
     public void initRoom1() {
         objects.clear();
 

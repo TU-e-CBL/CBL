@@ -2,6 +2,7 @@ package CBL;
 
 import java.awt.*;
 import java.util.List;
+
 import java.util.ArrayList;
 
 public class Collision {
@@ -32,7 +33,7 @@ public class Collision {
                 return true;
             } 
         }
-        return false;
+        return null;
     }
     
     public void resolveMovement(Character player, int prevX, int prevY, 

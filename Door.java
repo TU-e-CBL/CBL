@@ -31,7 +31,7 @@ public class Door extends GameObject {
         } else if (right) {
             g.fillRect(x - width / 2, y + height - width * 2, width, width);
         } else {
-            g.fillRect(x + width / 2, y + height - width, width, width);
+            g.fillRect(x + width / 2, y + height - width * 2, width, width);
         }
 
         g.setColor(new Color(100, 50, 0));

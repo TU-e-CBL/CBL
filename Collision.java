@@ -69,11 +69,11 @@ public class Collision {
             if (enteredDoor.top()) {
                 player.setPosition(currentX, screenHeight - enteredDoor.getY());
             } else if (enteredDoor.bottom()) {
-                player.setPosition(currentX, screenHeight - enteredDoor.getY() - 90);
+                player.setPosition(currentX, screenHeight - enteredDoor.getY() - enteredDoor.getHeight() - 90);
             } else if (enteredDoor.right()) {
                 player.setPosition(screenWidth - enteredDoor.getX(), currentY);
             } else {
-                player.setPosition(screenWidth - enteredDoor.getX() - 80, currentY);
+                player.setPosition(screenWidth - enteredDoor.getX() - enteredDoor.getWidth() - 80, currentY);
             }
             switch (targetRoomId) {
                 case 1:
@@ -83,13 +83,13 @@ public class Collision {
                     rooms.outside_2();
                     break;
                 case 3:
-                    rooms.initRoom1();
+                    rooms.entrance_1();
                     break;
                 case 4:
-                    rooms.initRoom2();
+                    rooms.entrance_2();
                     break;
                 case 5:
-                    rooms.initRoom3();
+                    rooms.upstairs_1();
                     break;
             }
             repaintCallback.run();

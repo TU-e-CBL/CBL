@@ -13,12 +13,11 @@ public abstract class GameObject {
     protected int height;
     protected Color color;
 
-    public GameObject(int x, int y, int width, int height, Color color) {
+    public GameObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width; 
         this.height = height;
-        this.color = color;
     }
     
     public void setPosition(int x, int y) {
@@ -41,15 +40,6 @@ public abstract class GameObject {
     public int getHeight() {
         return height; 
     }
-
-    public void draw(Graphics g) {
-        setColor(g);
-        design(g);
-    }
-
-    public void setColor(Graphics g) {
-        g.setColor(color);
-    }
    
     public String[] loadDialogue(String filePath) {
         ArrayList<String> dialogueList = new ArrayList<>(); 
@@ -65,7 +55,7 @@ public abstract class GameObject {
         return dialogueList.toArray(new String[0]); 
     }
 
-    public abstract void design(Graphics g);
+    public abstract void draw(Graphics g);
 
     public boolean collidesWith(int charX, int charY, int charWidth, int charHeight) {
         return (charX < x + width && charX + charWidth > x &&

@@ -34,13 +34,13 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = (int) screenSize.getWidth();
         screenHeight = (int) screenSize.getHeight();
-        int startX = screenWidth / 2 - 40;
-        int startY =  screenHeight - 200;
+        int startX = 300;
+        int startY =  screenHeight / 2 - 45;
 
-        player = new Character(startX, startY, 80, 90); 
+        player = new Character(startX, startY); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-        rooms.initRoom1();
+        rooms.outside_1();
 
         addKeyListener(
             new KeyAdapter() {
@@ -103,9 +103,22 @@ public class Play extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
+
+        int squareSize = getWidth() / 16;
+
+        for (int i = 0; i < 16; i++) {
+            for (int o = 0; o < 9; o++) {
+                if ((i + o) % 2 == 0) {
+                    g.setColor(rooms.getBackgroundColor());
+                } else {
+                    g.setColor(rooms.getBackgroundColor().darker());
+                }
+
+                int x = i * squareSize;
+                int y = o * squareSize;
+                g.fillRect(x, y, squareSize, squareSize);
+            }
+        }
         rooms.drawObjects(g);
         player.draw(g);
         //* 
@@ -153,13 +166,13 @@ public class Play extends JPanel implements ActionListener {
                 JFrame frame = new JFrame("Play");
                 Play play = new Play();
                 textPanel.setVisible(false);
-                // Create a JLayeredPane
+                
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                // Add the Play panel
+                
                 play.setBounds(0, 0, screenWidth, screenHeight);
                 layeredPane.add(play, Integer.valueOf(0));
-                // Add the CustomTextPanel 
+                
                 layeredPane.add(textPanel, Integer.valueOf(1)); 
 
                 frame.add(layeredPane);
@@ -169,7 +182,6 @@ public class Play extends JPanel implements ActionListener {
 
                 frame.setVisible(true); 
                 play.requestFocusInWindow();
-
             }
         );
     }    

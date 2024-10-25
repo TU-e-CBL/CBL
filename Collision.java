@@ -10,7 +10,6 @@ public class Collision {
     private Rooms rooms;
     private Runnable repaintCallback;
     private Door enteredDoor;
-    private int oldRoomId = 1;
     private int screenWidth = Play.screenWidth;
     private int screenHeight = Play.screenHeight;
 
@@ -67,25 +66,32 @@ public class Collision {
         // Check if a door is entered and switch to the room associated with the door
         if (enteredDoor != null) {
             int targetRoomId = enteredDoor.getTargetRoomId();
+            if (enteredDoor.top()) {
+                player.setPosition(currentX, screenHeight - enteredDoor.getY());
+            } else if (enteredDoor.bottom()) {
+                player.setPosition(currentX, screenHeight - enteredDoor.getY() - 90);
+            } else if (enteredDoor.right()) {
+                player.setPosition(screenWidth - enteredDoor.getX(), currentY);
+            } else {
+                player.setPosition(screenWidth - enteredDoor.getX() - 80, currentY);
+            }
             switch (targetRoomId) {
                 case 1:
-                    if (oldRoomId == 2) {
-                        player.setPosition(150, screenHeight / 2 - 45);
-                    } else {
-                        player.setPosition(screenWidth / 2 - 40, 150);
-                    }
-                    rooms.initRoom1();
+                    rooms.outside_1();
                     break;
                 case 2:
-                    rooms.initRoom2();
-                    player.setPosition(screenWidth - 200, 485);
+                    rooms.outside_2();
                     break;
                 case 3:
+                    rooms.initRoom1();
+                    break;
+                case 4:
+                    rooms.initRoom2();
+                    break;
+                case 5:
                     rooms.initRoom3();
-                    player.setPosition(screenWidth / 2, screenHeight / 2);
                     break;
             }
-            oldRoomId = targetRoomId;
             repaintCallback.run();
             enteredDoor = null;
         }

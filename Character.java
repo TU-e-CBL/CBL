@@ -7,8 +7,8 @@ public class Character extends GameObject{
 
     private int speed = 10;
 
-    public Character(int startX, int startY, int width, int height) {
-        super(startX, startY, width, height, Color.WHITE);
+    public Character(int startX, int startY) {
+        super(startX, startY, 80, 90);
     }
 
     public int getSpeed() {
@@ -16,7 +16,8 @@ public class Character extends GameObject{
     }
 
     @Override
-    public void design(Graphics g) {
+    public void draw(Graphics g) {
+        g.setColor(Color.WHITE);
         g.fillRect(x, y, width, height - 40); 
         g.fillRect(x + 15, y + 50, 20, height - 50);
         g.fillRect(x + 35, y + 50, 10, height - 60);

@@ -49,7 +49,7 @@ public class Play extends JPanel implements ActionListener {
         player = new Character(startX, startY); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-        rooms.floor1_staircase();
+        rooms.outside_1();
 
         addKeyListener(
             new KeyAdapter() {

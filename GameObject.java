@@ -13,13 +13,6 @@ public abstract class GameObject {
     protected int width;
     protected int height;
     protected Color color;
-    protected TextPanel textPanel = Play.textPanel;
-    protected String[] dialogue;
-
-    protected int boundsWidth = Play.wallThickness * 12;
-    protected int boundsHeight = boundsWidth / 2;
-    protected int boundsX = x - boundsWidth - (width + height);
-    protected int boundsY = y - (boundsHeight - height) / 2;
 
     public GameObject(int x, int y, int width, int height) {
         this.x = x;
@@ -33,9 +26,9 @@ public abstract class GameObject {
         this.y = y;
     }
    
-    public String[] loadDialogue(String filePath) {
+    public String[] loadDialogue(String textPath) {
         ArrayList<String> dialogueList = new ArrayList<>(); 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(textPath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 dialogueList.add(line); 

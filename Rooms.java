@@ -62,17 +62,19 @@ public class Rooms {
         objects.add(new Wall(0, 0, wallThickness, wallThickness * 4, white));
         objects.add(new Wall(0, wallThickness * 16, wallThickness, screenHeight - wallThickness * 16, white));
 
-        objects.add(new Wall(wallThickness * 17, screenHeight - wallThickness * 7, wallThickness * 32, wallThickness * 6, wood));
         objects.add(new Wall(wallThickness * 24, screenHeight - wallThickness * 11, wallThickness * 3, wallThickness * 3, light_brown));
         objects.add(new Wall(wallThickness * 39, screenHeight - wallThickness * 11, wallThickness * 3, wallThickness * 3, light_brown));
         objects.add(new Wall(wallThickness * 24, screenHeight - wallThickness * 34 / 3, wallThickness * 3, wallThickness / 2, light_brown.darker()));
         objects.add(new Wall(wallThickness * 39, screenHeight - wallThickness * 34 / 3, wallThickness * 3, wallThickness / 2, light_brown.darker()));
+        objects.add(new Wall(wallThickness * 17, screenHeight - wallThickness * 7, wallThickness * 32, wallThickness * 6, wood));
 
         objects.add(new Door(0, wallThickness * 4, wallThickness / 2, wallThickness * 12, 2)); 
         objects.add(new Door(screenWidth + wallThickness, 0, 0, screenHeight, 4));
 
         objects.add(new LoadedObject(screenWidth / 5, wallThickness, screenHeight / 7, screenHeight / 7 * 4,"shoe_rack_1.png"));
         objects.add(new LoadedObject(screenWidth - wallThickness * 20, wallThickness, wallThickness * 20, wallThickness * 4, "Bookshelf.png"));
+
+        objects.add(new NPC(wallThickness * 35, screenHeight - wallThickness * 14, wallThickness * 4, wallThickness * 6, "Mikio.png", "Its_past_your_bedtime"));
     }
 
     public void floor1_staircase() {
@@ -290,6 +292,8 @@ public class Rooms {
             objects.add(new Shape(x, wallThickness * 6, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
         }
         objects.add(new Door(screenWidth - wallThickness * 55 / 4, wallThickness * 13 / 2 , 0, wallThickness * 9 / 2, 5));
+
+        objects.add(new NPC(wallThickness * 22, screenHeight - wallThickness * 10, wallThickness * 3, wallThickness * 9 / 2, "Niina.png", "You_look_so_pale"));
     }
 
     public void drawObjects(Graphics g) {

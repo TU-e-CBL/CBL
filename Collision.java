@@ -33,10 +33,13 @@ public class Collision {
             if (object.collidesWith(charX, charY, charWidth, charHeight)) {
                 if (object instanceof Door) {
                     enteredDoor = (Door) object;
-                } else if (object instanceof Interactable && (!((Fisherman)object).spoken || !((NPC)object).spoken)) {
-                    ((Interactable)object).interact();
+                } else if(object instanceof Fisherman && !((Fisherman)object).spoken) {
+                     ((Fisherman)object).interact();
+                     return false;
+                } else if (object instanceof NPC && !((NPC)object).spoken) {
+                    ((NPC)object).interact();
                     return false;
-                }
+                } 
                 return true;
             } 
         }

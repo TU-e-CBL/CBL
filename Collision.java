@@ -2,8 +2,15 @@ package CBL;
 
 import java.awt.*;
 import java.util.List;
-
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Collision {
 
@@ -26,10 +33,8 @@ public class Collision {
             if (object.collidesWith(charX, charY, charWidth, charHeight)) {
                 if (object instanceof Door) {
                     enteredDoor = (Door) object;
-                } else if (object instanceof Fisherman) {
-                    if (!((Fisherman)object).spoken) {
-                        ((Fisherman)object).interact();
-                    }
+                } else if (object instanceof Interactable && (!((Fisherman)object).spoken || !((NPC)object).spoken)) {
+                    ((Interactable)object).interact();
                     return false;
                 }
                 return true;
@@ -49,7 +54,7 @@ public class Collision {
 
         Rectangle stairs_1 = new Rectangle(screenWidth / 5 * 3 + wallThickness - width, -height, screenWidth / 5 - wallThickness + width, wallThickness * 16 + height);
         Rectangle stairs_2 = new Rectangle(screenWidth / 5 * 2 + wallThickness - width, wallThickness * 3 - height, screenWidth / 5 - wallThickness + width, wallThickness * 7 + height);
-        Rectangle ladder_1 = new Rectangle(screenWidth - wallThickness * 15 / 2 - width, screenHeight - wallThickness * 9 - height, wallThickness * 15 / 2 + width, wallThickness * 11 / 2 + height);
+        Rectangle ladder_1 = new Rectangle(screenWidth - wallThickness * 15 / 2 - width, screenHeight - wallThickness * 10 - height, wallThickness * 15 / 2 + width, wallThickness * 11 / 2 + height);
         Rectangle ladder_2 = new Rectangle(screenWidth - wallThickness * 27 / 2 - width, wallThickness * 6 - height, wallThickness * 4 + width, wallThickness * 11 / 2 + height);
 
         boolean[] onStairsOrLadder = new boolean[4];
@@ -68,7 +73,11 @@ public class Collision {
     
         // Adjust speed based on whether the player is on stairs or ladder
         if (isOnStairsOrLadder) {
-            speed = player.speed / 2; // Slow down if on stairs or ladder
+            speed = player.speed * 3 / 4; // Slow down if on stairs or ladder
+        }
+
+        if (upPressed || downPressed || leftPressed ||rightPressed) {
+            Play.playSound("kick.wav");
         }
 
         if (upPressed) {
@@ -119,7 +128,7 @@ public class Collision {
                     break;
                 case 5:
                     if (ladderDoor) {
-                        player.setPosition(screenWidth + wallThickness - width, currentY + screenHeight - wallThickness * 15);
+                        player.setPosition(screenWidth + wallThickness - width, currentY + screenHeight - wallThickness * 16);
                         ladderDoor = false;
                     }
                     rooms.floor2_bathroom();
@@ -137,7 +146,7 @@ public class Collision {
                     rooms.floor2_balcony();
                     break;
                 case 10:
-                    player.setPosition(screenWidth - wallThickness * 27 / 2, currentY - screenHeight + wallThickness * 15);
+                    player.setPosition(screenWidth - wallThickness * 27 / 2, currentY - screenHeight + wallThickness * 16);
                     ladderDoor = true;
                     rooms.floor3_attic();
                     break;

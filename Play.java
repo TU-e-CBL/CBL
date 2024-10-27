@@ -3,10 +3,17 @@ package CBL;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.FloatControl;
 
 public class Play extends JPanel implements ActionListener {
 
-    // public static CustomTextPanel textPanel;
     public static TextPanel textPanel = new TextPanel();
     public static Timer timer;
     private Character player; 
@@ -23,10 +30,14 @@ public class Play extends JPanel implements ActionListener {
 
     public static int screenWidth;
     public static int screenHeight;
+
     public int currentTime = 21;
 
+    public static int wallThickness;
+
+
     public Play() {
-        timer = new Timer(10, this);
+        timer = new Timer(100, this);
         timer.start();
 
         setFocusable(true);
@@ -35,13 +46,15 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = (int) screenSize.getWidth();
         screenHeight = (int) screenSize.getHeight();
-        int startX = 300;
-        int startY =  screenHeight / 2 - 45;
+        wallThickness = screenWidth / 50;
+        int startX = wallThickness * 6;
+        int startY =  (screenHeight - wallThickness * 17 / 5) / 2;
 
         player = new Character(startX, startY); 
         rooms = new Rooms(this);
         collision = new Collision(rooms, this::repaint);
         rooms.outside_2();
+
 
         addKeyListener(
             new KeyAdapter() {
@@ -133,6 +146,25 @@ public class Play extends JPanel implements ActionListener {
         }
 
     }
+
+    public static void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath); // Specify the path to the sound file
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+    
+            // Set the volume using FloatControl
+            if (soundFilePath.equals("kick.wav")) {
+                FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeControl.setValue(-30.0f); // Adjust this value for desired volume in decibels (dB)
+            }
+    
+            clip.start(); // Play the sound
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Error playing sound: " + e.getMessage());
+        }
+    }    
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -5,22 +5,23 @@ import java.awt.Graphics;
 
 public class Character extends GameObject{ 
 
-    protected int speed = 10;
+    private int wallThickness = Play.wallThickness;
+    protected int speed = wallThickness / 2;
 
     public Character(int startX, int startY) {
-        super(startX, startY, 80, 90);
+        super(startX, startY, Play.wallThickness * 12 / 5, Play.wallThickness * 27 / 10);
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, width, height - 40); 
-        g.fillRect(x + 15, y + 50, 20, height - 50);
-        g.fillRect(x + 35, y + 50, 10, height - 60);
-        g.fillRect(x + 45, y + 50, 20, height - 50);
+        g.fillRect(x, y, width, height - wallThickness * 6 / 5); 
+        g.fillRect(x + wallThickness * 9 / 20, y + wallThickness * 3 / 2, wallThickness * 3 / 5, height - wallThickness * 3 / 2);
+        g.fillRect(x + wallThickness, y + wallThickness * 3 / 2, wallThickness * 2 / 5, height - wallThickness * 9 / 5);
+        g.fillRect(x + wallThickness * 27 / 20, y + wallThickness * 3 / 2, wallThickness * 3 / 5, height - wallThickness * 3 / 2);
 
         g.setColor(Color.BLACK);
-        g.fillRect(x + 10, y + 25, 25, 15);
-        g.fillRect(x + 45, y + 25, 25, 15);
+        g.fillRect(x + wallThickness * 3 / 10, y + wallThickness * 3 / 4, wallThickness * 3 / 4, wallThickness * 9 / 20);
+        g.fillRect(x + wallThickness * 27 / 20, y + wallThickness * 3 / 4, wallThickness * 3 / 4, wallThickness * 9 / 20);
     }
 }

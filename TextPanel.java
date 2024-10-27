@@ -1,18 +1,12 @@
 package CBL;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+
 
 public class TextPanel extends JPanel {
-
+    
     public static JLabel lineLabel;
     private JLabel enter;
     
@@ -68,19 +62,7 @@ public class TextPanel extends JPanel {
         add(lineLabel);
     }
 
-    private void playSound(String soundFilePath) {
-        try {
-            File soundFile = new File(soundFilePath); // Specify the path to the sound file
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start(); // Play the sound
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.err.println("Error playing sound: " + e.getMessage());
-        }
-    }
-
-    public void interaction(String[] dialogue, TextPanel textPanel, String soundFilePath) {
+    public void interaction(String[] dialogue, TextPanel textPanel) {
         Play.upPressed = false;
         Play.downPressed = false;
         Play.leftPressed = false;
@@ -101,7 +83,7 @@ public class TextPanel extends JPanel {
                     public void mouseClicked(MouseEvent e) {
                         if (currentLine[0] < dialogue.length) {
                             enter.setVisible(false);
-                            playSound(soundFilePath);
+                            Play.playSound("bleep.wav");
                             textPanel.setLine(dialogue[currentLine[0]]);
                             currentLine[0]++;
                         } else {

@@ -81,6 +81,8 @@ public class Rooms {
 
         objects.add(new Door(-wallThickness, 0, 0, screenHeight, 1));
         objects.add(new Door(screenWidth - wallThickness / 2, wallThickness  * 4, wallThickness / 2, wallThickness * 12, 3));
+
+        objects.add(new Fisherman(screenWidth - wallThickness * 3 / 2, wallThickness * 17, wallThickness / 2, wallThickness * 3, gray.darker(), "Miyazawa_residency.txt"));
     }
 
     public void floor1_entrance() {
@@ -112,6 +114,7 @@ public class Rooms {
         
         currentRoom = "FLOOR 1";
         moveButton.setVisible(false);
+        backgroundColor = dark_gray;
 
         objects.add(new Wall(0, 0, screenWidth / 5 * 3, wallThickness, white));
         objects.add(new Wall(screenWidth / 5 * 4, 0, screenWidth / 5, wallThickness, white));
@@ -129,6 +132,7 @@ public class Rooms {
         objects.add(new Door(screenWidth / 5 * 3 + wallThickness, -wallThickness, screenWidth / 5 - wallThickness, 0, 5));
 
         objects.add(new LoadedObject(-(wallThickness * 8), wallThickness, wallThickness * 20, wallThickness * 4, "Bookshelf.png"));
+        objects.add(new Fisherman(screenWidth - wallThickness * 3 / 2, wallThickness * 3, wallThickness / 2, wallThickness * 3, gray.darker(), "Money.txt"));
     }
 
     public void floor2_bathroom() {
@@ -167,14 +171,15 @@ public class Rooms {
             objects.add(new Shape((wallThickness * 6 / 5 + tempWidth) / 4 * i - wallThickness * 3 / 4, wallThickness * 36 / 5, wallThickness / 2, wallThickness / 4, new Color(240,230, 140), "rectangle"));
         }
 
-        objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness * 17 / 2, white));
-        objects.add(new Wall(screenWidth - wallThickness, screenHeight - wallThickness * 4, wallThickness, wallThickness * 4, white));
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 9, wallThickness * 8, wallThickness / 2, wood));
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 4, wallThickness * 8, wallThickness / 2, wood));
+        objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness * 10, white));
+        objects.add(new Wall(screenWidth - wallThickness, screenHeight - wallThickness * 5, wallThickness, wallThickness * 5, white));
+
+        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 10, wallThickness * 8, wallThickness / 2, wood));
+        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 5, wallThickness * 8, wallThickness / 2, wood));
         for (int x = screenWidth - wallThickness * 15 / 2; x < screenWidth; x = x + wallThickness * 3 / 2) {
-            objects.add(new Shape(x, screenHeight - wallThickness * 9, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
+            objects.add(new Shape(x, screenHeight - wallThickness * 10, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
         }
-        objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 17 / 2, 0, wallThickness * 9 / 2, 10));
+        objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 19 / 2, 0, wallThickness * 9 / 2, 10));
 
         objects.add(new Door(screenWidth / 5 * 3 + wallThickness, screenHeight + wallThickness, screenWidth / 5 - wallThickness, 0, 4));
         objects.add(new Door(0, screenHeight - wallThickness * 9, wallThickness / 2, wallThickness * 8, 6));
@@ -268,7 +273,7 @@ public class Rooms {
 
         objects.add(new Wall(screenWidth - wallThickness * 7, wallThickness * 5 / 4, wallThickness * 6, wallThickness * 14, light_brown));
         for (int i = 1; i < 4; i++) {
-            objects.add(new Shape(screenWidth - wallThickness * 29 / 4, wallThickness * 14 / 3 * i, wallThickness / 4, wallThickness / 2, new Color(240,230, 140), "rectangle"));
+            objects.add(new Shape(screenWidth - wallThickness * 29 / 4, wallThickness * 14 / 3 * i - wallThickness * 3 / 2, wallThickness / 4, wallThickness / 2, new Color(240,230, 140), "rectangle"));
         }
 
         objects.add(new Wall(screenWidth - wallThickness * 23, wallThickness * 2, wallThickness * 3, wallThickness * 3, light_brown));
@@ -316,6 +321,7 @@ public class Rooms {
         objects.clear();
         currentRoom = "FLOOR 3";
         moveButton.setVisible(false);
+        backgroundColor = dark_gray;
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));

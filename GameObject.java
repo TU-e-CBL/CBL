@@ -7,11 +7,19 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public abstract class GameObject {
-    
+
+    protected boolean spoken;
     protected int x, y;
     protected int width;
     protected int height;
     protected Color color;
+    protected TextPanel textPanel = Play.textPanel;
+    protected String[] dialogue;
+
+    protected int boundsWidth = Play.wallThickness * 12;
+    protected int boundsHeight = boundsWidth / 2;
+    protected int boundsX = x - boundsWidth - (width + height);
+    protected int boundsY = y - (boundsHeight - height) / 2;
 
     public GameObject(int x, int y, int width, int height) {
         this.x = x;

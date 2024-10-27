@@ -1,19 +1,23 @@
 package CBL;
 
-public class NPC extends LoadedObject implements Interactable {
+public class NPC extends LoadedObject {
 
-    private TextPanel textPanel;
+    private TextPanel textPanel = Play.textPanel;
     private String[] dialogue;
 
-    @Override
+    private int boundsWidth = Play.wallThickness * 12;
+    private int boundsHeight = boundsWidth / 2;
+    private int boundsX = x - (boundsWidth - width) / 2;
+    private int boundsY = y - boundsHeight;
+
+    public NPC(int x, int y, int width, int height, String imagePath, String textPath) {
+        super(x, y, width, height, imagePath);
+        dialogue = loadDialogue(textPath);
+    }
+
     public void interact() {
         textPanel.setParameters(boundsX, boundsY, boundsWidth, boundsHeight);
         textPanel.interaction(dialogue, textPanel);
         spoken = true;
-    }
-
-    public NPC(int x, int y, int width, int height, String imagePath, String filePath) {
-        super(x, y, width, height, imagePath);
-        dialogue = loadDialogue(filePath);
     }
 }

@@ -128,14 +128,15 @@ public class Rooms {
             objects.add(new Shape((wallThickness * 6 / 5 + tempWidth) / 4 * i - wallThickness * 3 / 4, wallThickness * 36 / 5, wallThickness / 2, wallThickness / 4, new Color(240,230, 140), "rectangle"));
         }
 
-        objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness * 17 / 2, white));
-        objects.add(new Wall(screenWidth - wallThickness, screenHeight - wallThickness * 4, wallThickness, wallThickness * 4, white));
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 9, wallThickness * 8, wallThickness / 2, wood));
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 4, wallThickness * 8, wallThickness / 2, wood));
+        objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness * 10, white));
+        objects.add(new Wall(screenWidth - wallThickness, screenHeight - wallThickness * 5, wallThickness, wallThickness * 5, white));
+
+        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 10, wallThickness * 8, wallThickness / 2, wood));
+        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 5, wallThickness * 8, wallThickness / 2, wood));
         for (int x = screenWidth - wallThickness * 15 / 2; x < screenWidth; x = x + wallThickness * 3 / 2) {
-            objects.add(new Shape(x, screenHeight - wallThickness * 9, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
+            objects.add(new Shape(x, screenHeight - wallThickness * 10, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
         }
-        objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 17 / 2, 0, wallThickness * 9 / 2, 10));
+        objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 19 / 2, 0, wallThickness * 9 / 2, 10));
 
         objects.add(new Door(screenWidth / 5 * 3 + wallThickness, screenHeight + wallThickness, screenWidth / 5 - wallThickness, 0, 4));
         objects.add(new Door(0, screenHeight - wallThickness * 9, wallThickness / 2, wallThickness * 8, 6));
@@ -223,7 +224,7 @@ public class Rooms {
 
         objects.add(new Wall(screenWidth - wallThickness * 7, wallThickness * 5 / 4, wallThickness * 6, wallThickness * 14, light_brown));
         for (int i = 1; i < 4; i++) {
-            objects.add(new Shape(screenWidth - wallThickness * 29 / 4, wallThickness * 14 / 3 * i, wallThickness / 4, wallThickness / 2, new Color(240,230, 140), "rectangle"));
+            objects.add(new Shape(screenWidth - wallThickness * 29 / 4, wallThickness * 14 / 3 * i - wallThickness * 3 / 2, wallThickness / 4, wallThickness / 2, new Color(240,230, 140), "rectangle"));
         }
 
         objects.add(new Wall(screenWidth - wallThickness * 23, wallThickness * 2, wallThickness * 3, wallThickness * 3, light_brown));

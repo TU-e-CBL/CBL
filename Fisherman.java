@@ -5,12 +5,6 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 
 public class Fisherman extends GameObject {
     
@@ -37,7 +31,7 @@ public class Fisherman extends GameObject {
     }
 
     public void interact() {
-        textPanel.interaction(dialogue, textPanel, "bruh.wav");
+        textPanel.interaction(dialogue, textPanel);
         spoken = true;
     }
 }

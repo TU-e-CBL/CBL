@@ -31,3 +31,4 @@ public class Fisherman extends GameObject {
         spoken = true;
     }
 }
+

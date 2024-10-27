@@ -30,7 +30,11 @@ public class Play extends JPanel implements ActionListener {
 
     public static int screenWidth;
     public static int screenHeight;
+
+    public int currentTime = 21;
+
     public static int wallThickness;
+
 
     public Play() {
         timer = new Timer(100, this);
@@ -47,10 +51,10 @@ public class Play extends JPanel implements ActionListener {
         int startY =  (screenHeight - wallThickness * 17 / 5) / 2;
 
         player = new Character(startX, startY); 
-        rooms = new Rooms();
+        rooms = new Rooms(this);
         collision = new Collision(rooms, this::repaint);
         rooms.outside_1();
-
+      
         addKeyListener(
             new KeyAdapter() {
                 @Override
@@ -134,12 +138,12 @@ public class Play extends JPanel implements ActionListener {
         }
         rooms.drawObjects(g);
         player.draw(g);
-        //* 
+
         g.setColor(Color.BLACK);
         for (int i = 0; i < getHeight(); i = i + 15) {
-            g.fillRect(0, i, getWidth(), 5);
+            g.fillRect(0, i, getWidth(), 1);
         }
-             //* */
+
     }
 
     public static void playSound(String soundFilePath) {
@@ -195,26 +199,29 @@ public class Play extends JPanel implements ActionListener {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(
             () -> {
-                JFrame frame = new JFrame("Play");
+                JFrame frame = new JFrame("Game");
                 Play play = new Play();
                 textPanel.setVisible(false);
-                
+
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                
+
                 play.setBounds(0, 0, screenWidth, screenHeight);
                 layeredPane.add(play, Integer.valueOf(0));
-                
-                layeredPane.add(textPanel, Integer.valueOf(1)); 
+
+                layeredPane.add(textPanel, Integer.valueOf(1));
+
+                StartMenu startMenu = new StartMenu(play);
+                startMenu.setBounds(0, 0, screenWidth, screenHeight);
+                layeredPane.add(startMenu, Integer.valueOf(2));
 
                 frame.add(layeredPane);
                 frame.setUndecorated(true);
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                frame.setVisible(true); 
-                play.requestFocusInWindow();
+                frame.setVisible(true);
             }
         );
-    }    
+    }
 }
+

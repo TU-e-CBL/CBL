@@ -3,19 +3,20 @@ package CBL;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Fisherman extends GameObject implements Interactable {
+public class Fisherman extends GameObject {
 
-    @Override
-    public void interact() {
-        textPanel.setParameters(boundsX, boundsY, boundsWidth, boundsHeight);
-        textPanel.interaction(dialogue, textPanel);
-        spoken = true;
-    }
+    private TextPanel textPanel = Play.textPanel;
+    private String[] dialogue;
 
-    public Fisherman(int x, int y, int width, int height, Color color, String filepath) {
+    private int boundsWidth = Play.wallThickness * 12;
+    private int boundsHeight = boundsWidth / 2;
+    private int boundsX = x - boundsWidth - width;
+    private int boundsY = y - (boundsHeight - height) / 2;
+
+    public Fisherman(int x, int y, int width, int height, Color color, String textPath) {
         super(x, y, width, height);
         this.color = color;
-        dialogue = loadDialogue(filepath);
+        dialogue = loadDialogue(textPath);
     }
 
     @Override
@@ -23,4 +24,11 @@ public class Fisherman extends GameObject implements Interactable {
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }    
+
+    public void interact() {
+        textPanel.setParameters(boundsX, boundsY, boundsWidth, boundsHeight);
+        textPanel.interaction(dialogue, textPanel);
+        spoken = true;
+    }
 }
+

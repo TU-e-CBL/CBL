@@ -53,9 +53,8 @@ public class Play extends JPanel implements ActionListener {
         player = new Character(startX, startY); 
         rooms = new Rooms(this);
         collision = new Collision(rooms, this::repaint);
-        rooms.outside_2();
-
-
+        rooms.outside_1();
+      
         addKeyListener(
             new KeyAdapter() {
                 @Override

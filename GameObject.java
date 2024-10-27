@@ -24,22 +24,6 @@ public abstract class GameObject {
         this.x = x;
         this.y = y;
     }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getWidth() {
-        return width; 
-    }
-
-    public int getHeight() {
-        return height; 
-    }
    
     public String[] loadDialogue(String filePath) {
         ArrayList<String> dialogueList = new ArrayList<>(); 

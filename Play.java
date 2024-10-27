@@ -40,7 +40,7 @@ public class Play extends JPanel implements ActionListener {
         player = new Character(startX, startY); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-        rooms.entrance_1();
+        rooms.floor2_kitchen();
 
         addKeyListener(
             new KeyAdapter() {
@@ -103,15 +103,19 @@ public class Play extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        Color backgroundColor = rooms.getBackgroundColor();
         int squareSize = getWidth() / 16;
 
         for (int i = 0; i < 16; i++) {
             for (int o = 0; o < 9; o++) {
                 if ((i + o) % 2 == 0) {
-                    g.setColor(rooms.getBackgroundColor());
+                    g.setColor(backgroundColor);
                 } else {
-                    g.setColor(rooms.getBackgroundColor().darker());
+                    if (backgroundColor == Color.BLACK) {
+                        g.setColor(Color.GRAY);
+                    } else {
+                        g.setColor(backgroundColor.darker());
+                    }
                 }
 
                 int x = i * squareSize;
@@ -123,8 +127,8 @@ public class Play extends JPanel implements ActionListener {
         player.draw(g);
         //* 
         g.setColor(Color.BLACK);
-        for (int i = 0; i < getHeight(); i = i + 16) {
-            g.fillRect(0, i, getWidth(), 4);
+        for (int i = 0; i < getHeight(); i = i + 15) {
+            g.fillRect(0, i, getWidth(), 5);
         }
              //* */
     }
@@ -132,15 +136,15 @@ public class Play extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Store previous position for collision detection
-        int prevX = player.getX();
-        int prevY = player.getY();
+        int prevX = player.x;
+        int prevY = player.y;
 
 
         collision.resolveMovement(player, prevX, prevY, rooms.getObjects(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
         // Update character's position
-        player.setPosition(player.getX(), player.getY());
+        player.setPosition(player.x, player.y);
 
         // Repaint to reflect position changes
         repaint();

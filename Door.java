@@ -23,7 +23,7 @@ public class Door extends GameObject {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.orange);
+        g.setColor(new Color(240,230, 140));
         if (bottom) {
             g.fillRect(x + height, y - height / 2, height, height);
         } else if (top) {
@@ -34,7 +34,7 @@ public class Door extends GameObject {
             g.fillRect(x + width / 2, y + height - width * 2, width, width);
         }
 
-        g.setColor(new Color(100, 50, 0));
+        g.setColor(new Color(102,68,51));
         g.fillRect(x, y, width, height);
     }
 

@@ -5,14 +5,10 @@ import java.awt.Graphics;
 
 public class Character extends GameObject{ 
 
-    private int speed = 10;
+    protected int speed = 10;
 
     public Character(int startX, int startY) {
         super(startX, startY, 80, 90);
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     @Override

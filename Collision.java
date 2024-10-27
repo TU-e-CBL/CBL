@@ -12,6 +12,9 @@ public class Collision {
     private Door enteredDoor;
     private int screenWidth = Play.screenWidth;
     private int screenHeight = Play.screenHeight;
+    private int wallThickness = screenWidth / 50;
+    private int roomId = 1;
+    private boolean ladderDoor = false;
 
     public Collision(Rooms rooms, Runnable repaintCallback) {
         this.rooms = rooms;
@@ -35,45 +38,71 @@ public class Collision {
         return false;
     }
     
-    public void resolveMovement(Character player, int prevX, int prevY, 
-                                List<GameObject> objects,
-                                boolean upPressed, boolean downPressed, 
-                                boolean leftPressed, boolean rightPressed) {
-        int currentX = player.getX();
-        int currentY = player.getY();
+    public void resolveMovement(Character player, int prevX, int prevY, List<GameObject> objects, 
+                                boolean upPressed, boolean downPressed, boolean leftPressed, boolean rightPressed) {
+                                    
+        int currentX = player.x;
+        int currentY = player.y;
+        int width = player.width;
+        int height = player.height;
+        int speed = player.speed;
 
-        if (upPressed) {
-            currentY -= player.getSpeed();
-        } else if (downPressed) {
-            currentY += player.getSpeed();
+        Rectangle stairs_1 = new Rectangle(screenWidth / 5 * 3 + wallThickness - width, -height, screenWidth / 5 - wallThickness + width, wallThickness * 16 + height);
+        Rectangle stairs_2 = new Rectangle(screenWidth / 5 * 2 + wallThickness - width, wallThickness * 3 - height, screenWidth / 5 - wallThickness + width, wallThickness * 7 + height);
+        Rectangle ladder_1 = new Rectangle(screenWidth - wallThickness * 15 / 2 - width, screenHeight - wallThickness * 9 - height, wallThickness * 15 / 2 + width, wallThickness * 11 / 2 + height);
+        Rectangle ladder_2 = new Rectangle(screenWidth - wallThickness * 27 / 2 - width, wallThickness * 6 - height, wallThickness * 4 + width, wallThickness * 11 / 2 + height);
+
+        boolean[] onStairsOrLadder = new boolean[4];
+        onStairsOrLadder[0] = (roomId == 4 && stairs_1.contains(currentX, currentY));  
+        onStairsOrLadder[1] = (roomId == 5 && ladder_1.contains(currentX, currentY));  
+        onStairsOrLadder[2] = (roomId == 7 && stairs_2.contains(currentX, currentY));
+        onStairsOrLadder[3] = (roomId == 10 && ladder_2.contains(currentX, currentY));  
+        
+        boolean isOnStairsOrLadder = false;
+        for (boolean condition : onStairsOrLadder) {
+            if (condition) {
+                isOnStairsOrLadder = true; // At least one condition is true
+                break; // No need to check further
+            }
+        }
+    
+        // Adjust speed based on whether the player is on stairs or ladder
+        if (isOnStairsOrLadder) {
+            speed = player.speed / 2; // Slow down if on stairs or ladder
         }
 
-        if((upPressed || downPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), objects)) {
+        if (upPressed) {
+            currentY -= speed;
+        } else if (downPressed) {
+            currentY += speed;
+        }
+
+        if((upPressed || downPressed) && checkCollision(currentX, currentY, width, height, objects)) {
             currentY = prevY;
         }
 
         if (leftPressed) {
-            currentX -= player.getSpeed();
+            currentX -= speed;
         } else if (rightPressed) {
-            currentX += player.getSpeed();
+            currentX += speed;
         }
 
-        if ((leftPressed || rightPressed) && checkCollision(currentX, currentY, player.getWidth(), player.getHeight(), objects)) {
+        if ((leftPressed || rightPressed) && checkCollision(currentX, currentY, width, height, objects)) {
             currentX = prevX;
         } 
 
         player.setPosition(currentX, currentY);
-        // Check if a door is entered and switch to the room associated with the door
+        
         if (enteredDoor != null) {
             int targetRoomId = enteredDoor.getTargetRoomId();
-            if (enteredDoor.top()) {
-                player.setPosition(currentX, screenHeight - enteredDoor.getY());
-            } else if (enteredDoor.bottom()) {
-                player.setPosition(currentX, screenHeight - enteredDoor.getY() - enteredDoor.getHeight() - 90);
+            if (enteredDoor.bottom()) {
+                player.setPosition(currentX, screenHeight - enteredDoor.y);
+            } else if (enteredDoor.top()) {
+                player.setPosition(currentX, screenHeight - enteredDoor.y - enteredDoor.height - height);
             } else if (enteredDoor.right()) {
-                player.setPosition(screenWidth - enteredDoor.getX(), currentY);
+                player.setPosition(screenWidth - enteredDoor.x, currentY);
             } else {
-                player.setPosition(screenWidth - enteredDoor.getX() - enteredDoor.getWidth() - 80, currentY);
+                player.setPosition(screenWidth - enteredDoor.x - enteredDoor.width - width, currentY);
             }
             switch (targetRoomId) {
                 case 1:
@@ -83,17 +112,39 @@ public class Collision {
                     rooms.outside_2();
                     break;
                 case 3:
-                    rooms.entrance_1();
+                    rooms.floor1_entrance();
                     break;
                 case 4:
-                    rooms.entrance_2();
+                    rooms.floor1_staircase();
                     break;
                 case 5:
-                    rooms.upstairs_1();
+                    if (ladderDoor) {
+                        player.setPosition(screenWidth + wallThickness - width, currentY + screenHeight - wallThickness * 15);
+                        ladderDoor = false;
+                    }
+                    rooms.floor2_bathroom();
+                    break;
+                case 6:
+                    rooms.floor2_rei();
+                    break;
+                case 7:
+                    rooms.floor2_kitchen();
+                    break;
+                case 8:
+                    rooms.floor2_living_room();
+                    break;
+                case 9:
+                    rooms.floor2_balcony();
+                    break;
+                case 10:
+                    player.setPosition(screenWidth - wallThickness * 27 / 2, currentY - screenHeight + wallThickness * 15);
+                    ladderDoor = true;
+                    rooms.floor3_attic();
                     break;
             }
             repaintCallback.run();
             enteredDoor = null;
+            roomId = targetRoomId;
         }
     }
 }

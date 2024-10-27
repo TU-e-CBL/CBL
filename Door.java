@@ -13,8 +13,8 @@ public class Door extends GameObject {
     private boolean top = false;
     private boolean right = false;
 
-    public Door(int x, int y, int width, int height, int targetRoomId, Color color) {
-        super(x, y, width, height, color);
+    public Door(int x, int y, int width, int height, int targetRoomId) {
+        super(x, y, width, height);
         this.targetRoomId = targetRoomId;
         bottom = (this.width > this.height && this.y > screenHeight / 2);
         top = (this.width > this.height);
@@ -22,19 +22,19 @@ public class Door extends GameObject {
     }
 
     @Override
-    public void design(Graphics g) {
-        g.setColor(Color.orange);
+    public void draw(Graphics g) {
+        g.setColor(new Color(240,230, 140));
         if (bottom) {
             g.fillRect(x + height, y - height / 2, height, height);
         } else if (top) {
-            g.fillRect(x + width - height * 2, y + height / 2, height, height);
+            g.fillRect(x + height, y + height / 2, height, height);
         } else if (right) {
             g.fillRect(x - width / 2, y + height - width * 2, width, width);
         } else {
-            g.fillRect(x + width / 2, y + width, width, width);
+            g.fillRect(x + width / 2, y + height - width * 2, width, width);
         }
 
-        g.setColor(color);
+        g.setColor(new Color(102,68,51));
         g.fillRect(x, y, width, height);
     }
 

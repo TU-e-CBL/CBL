@@ -2,7 +2,6 @@ package CBL;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,14 +24,15 @@ public class Fisherman extends GameObject {
     private int boundsY = y - (boundsHeight + (width + height) / 4);
 
     public Fisherman(int x, int y, String filepath) {
-        super(x, y, 100, 100, Color.RED);
+        super(x, y, 100, 100);
         dialogue = loadDialogue(filepath);
         textPanel = Play.textPanel;
         textPanel.setParameters(boundsX, boundsY, boundsWidth, boundsHeight);
     }
 
     @Override
-    public void design(Graphics g) {
+    public void draw(Graphics g) {
+        g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
     }
 

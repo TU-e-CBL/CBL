@@ -34,13 +34,13 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = (int) screenSize.getWidth();
         screenHeight = (int) screenSize.getHeight();
-        int startX = screenWidth / 2 - 40;
-        int startY =  screenHeight - 200;
+        int startX = 300;
+        int startY =  screenHeight / 2 - 45;
 
-        player = new Character(startX, startY, 80, 90); 
+        player = new Character(startX, startY); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-        rooms.initRoom1();
+        rooms.floor2_kitchen();
 
         addKeyListener(
             new KeyAdapter() {
@@ -103,15 +103,32 @@ public class Play extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        Color backgroundColor = rooms.getBackgroundColor();
+        int squareSize = getWidth() / 16;
+
+        for (int i = 0; i < 16; i++) {
+            for (int o = 0; o < 9; o++) {
+                if ((i + o) % 2 == 0) {
+                    g.setColor(backgroundColor);
+                } else {
+                    if (backgroundColor == Color.BLACK) {
+                        g.setColor(Color.GRAY);
+                    } else {
+                        g.setColor(backgroundColor.darker());
+                    }
+                }
+
+                int x = i * squareSize;
+                int y = o * squareSize;
+                g.fillRect(x, y, squareSize, squareSize);
+            }
+        }
         rooms.drawObjects(g);
         player.draw(g);
         //* 
         g.setColor(Color.BLACK);
-        for (int i = 0; i < getHeight(); i = i + 16) {
-            g.fillRect(0, i, getWidth(), 4);
+        for (int i = 0; i < getHeight(); i = i + 15) {
+            g.fillRect(0, i, getWidth(), 5);
         }
              //* */
     }
@@ -119,15 +136,15 @@ public class Play extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Store previous position for collision detection
-        int prevX = player.getX();
-        int prevY = player.getY();
+        int prevX = player.x;
+        int prevY = player.y;
 
 
         collision.resolveMovement(player, prevX, prevY, rooms.getObjects(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
         // Update character's position
-        player.setPosition(player.getX(), player.getY());
+        player.setPosition(player.x, player.y);
 
         // Repaint to reflect position changes
         repaint();
@@ -153,13 +170,13 @@ public class Play extends JPanel implements ActionListener {
                 JFrame frame = new JFrame("Play");
                 Play play = new Play();
                 textPanel.setVisible(false);
-                // Create a JLayeredPane
+                
                 JLayeredPane layeredPane = new JLayeredPane();
                 layeredPane.setPreferredSize(new Dimension(screenWidth, screenHeight));
-                // Add the Play panel
+                
                 play.setBounds(0, 0, screenWidth, screenHeight);
                 layeredPane.add(play, Integer.valueOf(0));
-                // Add the CustomTextPanel 
+                
                 layeredPane.add(textPanel, Integer.valueOf(1)); 
 
                 frame.add(layeredPane);
@@ -169,7 +186,6 @@ public class Play extends JPanel implements ActionListener {
 
                 frame.setVisible(true); 
                 play.requestFocusInWindow();
-
             }
         );
     }    

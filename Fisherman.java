@@ -2,9 +2,6 @@ package CBL;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Fisherman extends GameObject implements Interactable {
 

@@ -1,9 +1,14 @@
 package CBL;
 
-import java.awt.Color;
-import java.awt.Graphics;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
+
+
 
 public class Rooms {
 
@@ -18,17 +23,38 @@ public class Rooms {
     private Color wood = new Color(102,68,51);
     private Color light_brown = new Color(152, 120, 90);
     private Color backgroundColor;
+    private String currentRoom = "FLOOR 1";
+    private JButton moveButton;
+    private boolean boxMoved = false;
 
-    public Rooms() {
+    public Rooms(JPanel panel) {
         objects = new ArrayList<>();
+        moveButton = new JButton();
+        moveButton.setFocusable(false); 
+        moveButton.setBackground(light_brown);
+        moveButton.setBounds(screenWidth + wallThickness-150, 110, 100, 400); // Initial position
+        moveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                moveButton.setBounds(screenWidth + wallThickness-150, 450, 100, 400);
+                boxMoved = true;
+        
+                outside_2();
+            }
+        });
+        panel.add(moveButton);
+        moveButton.setVisible(false);
     }
 
     public void outside_1() {
         objects.clear();
         backgroundColor = grass;
+        currentRoom = "OUTSIDE";
+
+        moveButton.setVisible(false);
 
         objects.add(new Wall(wallThickness, wallThickness * 3, 5, screenHeight - wallThickness * 6, gray));
-
+        
         for (int x = wallThickness; x < screenWidth; x = x + 10) {
             objects.add(new Wall(x, wallThickness, 5, wallThickness * 2, gray));
             objects.add(new Wall(x, screenHeight - wallThickness * 3, 5, wallThickness * 2, gray));
@@ -39,6 +65,8 @@ public class Rooms {
     public void outside_2() {
         objects.clear();
         backgroundColor = grass;
+        currentRoom = "OUTSIDE";
+        moveButton.setVisible(true);
 
         for (int x = 0; x < screenWidth - wallThickness; x = x + 10) {
             objects.add(new Wall(x, wallThickness, 5, wallThickness * 2, gray));
@@ -46,6 +74,10 @@ public class Rooms {
         }
         objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, wallThickness * 4, white));
         objects.add(new Wall(screenWidth - wallThickness, wallThickness * 16, wallThickness, screenHeight - wallThickness * 16, white));
+        if(!boxMoved){
+            System.out.println("noob");
+            objects.add(new Wall(screenWidth - wallThickness - 80, wallThickness * 4, wallThickness, screenHeight - wallThickness * 16, white));
+        }
 
         objects.add(new Door(-wallThickness, 0, 0, screenHeight, 1));
         objects.add(new Door(screenWidth - wallThickness / 2, wallThickness  * 4, wallThickness / 2, wallThickness * 12, 3));
@@ -54,6 +86,8 @@ public class Rooms {
     public void floor1_entrance() {
         objects.clear();
         backgroundColor = dark_gray;
+        currentRoom = "FLOOR 1";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -75,6 +109,9 @@ public class Rooms {
 
     public void floor1_staircase() {
         objects.clear(); 
+        
+        currentRoom = "FLOOR 1";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth / 5 * 3, wallThickness, white));
         objects.add(new Wall(screenWidth / 5 * 4, 0, screenWidth / 5, wallThickness, white));
@@ -97,6 +134,8 @@ public class Rooms {
     public void floor2_bathroom() {
         objects.clear();
         backgroundColor = dark_gray;
+        currentRoom = "FLOOR 2";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth / 5 * 2 + wallThickness, wallThickness, white));
@@ -146,6 +185,8 @@ public class Rooms {
     public void floor2_rei() {
         objects.clear();
         backgroundColor = dark_gray;
+        currentRoom = "FLOOR 1 REI'S ROOM";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -169,6 +210,8 @@ public class Rooms {
     public void floor2_kitchen() {
         objects.clear();
         backgroundColor = Color.BLACK;
+        currentRoom = "FLOOR 2 KITCHEN";
+        moveButton.setVisible(false);
 
         objects.add(new Shape(screenWidth / 5 * 2, 0, screenWidth / 5 * 3, screenHeight, dark_gray, "rectangle"));
         objects.add(new Shape(0, screenHeight / 5 * 3 - wallThickness / 5 * 3, screenWidth / 5 * 3, screenHeight / 5 * 2, dark_gray, "rectangle"));
@@ -215,6 +258,8 @@ public class Rooms {
     public void floor2_living_room() {
         objects.clear();
         backgroundColor = dark_gray;
+        currentRoom = "FLOOR 2 LIVING ROOM";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -249,6 +294,8 @@ public class Rooms {
     public void floor2_balcony() {
         objects.clear();
         backgroundColor = grass;
+        currentRoom = "FLOOR 2 BALCONY";
+        moveButton.setVisible(false);
 
         for (int x = 0; x < screenWidth - wallThickness * 9; x = x + 10) {
             objects.add(new Wall(x, wallThickness, 5, wallThickness * 2, gray));
@@ -267,6 +314,8 @@ public class Rooms {
 
     public void floor3_attic() {
         objects.clear();
+        currentRoom = "FLOOR 3";
+        moveButton.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -290,6 +339,9 @@ public class Rooms {
         for (GameObject object : objects) {
             object.draw(g); 
         }
+        g.setColor(Color.WHITE); // Set the text color
+        g.setFont(new Font("Arial", Font.BOLD, 48)); // Set the font type and size
+        g.drawString(currentRoom, screenWidth/64, screenHeight/8);
     }
 
     public Color getBackgroundColor() {

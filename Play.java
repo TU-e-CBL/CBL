@@ -2,15 +2,15 @@ package CBL;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.FloatControl;
+import javax.swing.*;
 
 public class Play extends JPanel implements ActionListener {
 
@@ -30,14 +30,14 @@ public class Play extends JPanel implements ActionListener {
 
     public static int screenWidth;
     public static int screenHeight;
+    public static int currentHour = 21;
 
-    public int currentTime = 21;
 
     public static int wallThickness;
 
 
     public Play() {
-        timer = new Timer(100, this);
+        timer = new Timer(10, this);
         timer.start();
 
         setFocusable(true);
@@ -54,6 +54,7 @@ public class Play extends JPanel implements ActionListener {
         rooms = new Rooms(this);
         collision = new Collision(rooms, this::repaint);
         rooms.outside_1();
+
       
         addKeyListener(
             new KeyAdapter() {

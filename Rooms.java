@@ -25,25 +25,87 @@ public class Rooms {
     private Color backgroundColor;
     private String currentRoom = "FLOOR 1";
     private JButton moveButton;
+    private JButton toyEntrance;
+    private JButton toyReiRoom;
+    private JButton toyLivingRoom;
+
     private boolean boxMoved = false;
+    private boolean timeProgress = false;
+    private boolean[] collectedToys = {false, false, false};
+
+
 
     public Rooms(JPanel panel) {
         objects = new ArrayList<>();
         moveButton = new JButton();
+        toyEntrance = new JButton();
+        toyReiRoom = new JButton();
+        toyLivingRoom = new JButton();
         moveButton.setFocusable(false); 
+        toyEntrance.setFocusable(false); 
+        toyReiRoom.setFocusable(false); 
+        toyLivingRoom.setFocusable(false); 
         moveButton.setBackground(light_brown);
+        toyEntrance.setBackground(Color.RED);
+        toyReiRoom.setBackground(Color.CYAN);
+        toyLivingRoom.setBackground(Color.GREEN);
         moveButton.setBounds(screenWidth + wallThickness-150, 110, 100, 400); // Initial position
+        toyEntrance.setBounds(screenWidth/2, (screenHeight/6)*5, 50, 50); // Initial position
+        toyReiRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50); // Initial position
+        toyLivingRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50); // Initial position
+
         moveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 moveButton.setBounds(screenWidth + wallThickness-150, 450, 100, 400);
                 boxMoved = true;
-        
                 outside_2();
             }
         });
+        toyEntrance.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collectedToys[0] = true;
+                if(!timeProgress && collectedToys[1] && collectedToys[2]){
+                    timeProgress = true;
+                    Play.currentHour++;
+                }
+                toyEntrance.setVisible(false);
+            }
+        });
+
+        toyReiRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collectedToys[1] = true;
+                if(!timeProgress && collectedToys[0] && collectedToys[2]){
+                    timeProgress = true;
+                    Play.currentHour++;
+                }
+                toyReiRoom.setVisible(false);
+            }
+        });
+        toyLivingRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collectedToys[2] = true;
+                if(!timeProgress && collectedToys[1] && collectedToys[0]){
+                    timeProgress = true;
+                    Play.currentHour++;
+                }
+                toyLivingRoom.setVisible(false);
+            }
+        });
+
         panel.add(moveButton);
+        panel.add(toyLivingRoom);
+        panel.add(toyReiRoom);
+        panel.add(toyEntrance);
+
         moveButton.setVisible(false);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
     }
 
     public void outside_1() {
@@ -52,7 +114,10 @@ public class Rooms {
         currentRoom = "OUTSIDE";
 
         moveButton.setVisible(false);
-
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
+        
         objects.add(new Wall(wallThickness, wallThickness * 3, 5, screenHeight - wallThickness * 6, gray));
         
         for (int x = wallThickness; x < screenWidth; x = x + 10) {
@@ -67,6 +132,9 @@ public class Rooms {
         backgroundColor = grass;
         currentRoom = "OUTSIDE";
         moveButton.setVisible(true);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
 
         for (int x = 0; x < screenWidth - wallThickness; x = x + 10) {
             objects.add(new Wall(x, wallThickness, 5, wallThickness * 2, gray));
@@ -90,6 +158,11 @@ public class Rooms {
         backgroundColor = dark_gray;
         currentRoom = "FLOOR 1";
         moveButton.setVisible(false);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
+        if(!collectedToys[0]){toyEntrance.setVisible(true);}
+
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -116,6 +189,9 @@ public class Rooms {
         
         currentRoom = "FLOOR 1";
         moveButton.setVisible(false);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
         backgroundColor = dark_gray;
 
         objects.add(new Wall(0, 0, screenWidth / 5 * 3, wallThickness, white));
@@ -142,6 +218,9 @@ public class Rooms {
         backgroundColor = dark_gray;
         currentRoom = "FLOOR 2";
         moveButton.setVisible(false);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth / 5 * 2 + wallThickness, wallThickness, white));
@@ -176,12 +255,16 @@ public class Rooms {
         objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness * 10, white));
         objects.add(new Wall(screenWidth - wallThickness, screenHeight - wallThickness * 5, wallThickness, wallThickness * 5, white));
 
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 10, wallThickness * 8, wallThickness / 2, wood));
-        objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 5, wallThickness * 8, wallThickness / 2, wood));
-        for (int x = screenWidth - wallThickness * 15 / 2; x < screenWidth; x = x + wallThickness * 3 / 2) {
-            objects.add(new Shape(x, screenHeight - wallThickness * 10, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
+        if(collectedToys[0] && collectedToys[1] && collectedToys[2]){
+            objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 10, wallThickness * 8, wallThickness / 2, wood));
+            objects.add(new Wall(screenWidth - wallThickness * 8, screenHeight - wallThickness * 5, wallThickness * 8, wallThickness / 2, wood));
+            for (int x = screenWidth - wallThickness * 15 / 2; x < screenWidth; x = x + wallThickness * 3 / 2) {
+                objects.add(new Shape(x, screenHeight - wallThickness * 10, wallThickness / 2, wallThickness * 11 / 2, wood.brighter(), "rectangle"));
+            }
+            objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 19 / 2, 0, wallThickness * 9 / 2, 10));
+        }else{
+            objects.add(new Wall(screenWidth - wallThickness, 0, wallThickness, screenHeight - wallThickness, white));
         }
-        objects.add(new Door(screenWidth + wallThickness, screenHeight - wallThickness * 19 / 2, 0, wallThickness * 9 / 2, 10));
 
         objects.add(new Door(screenWidth / 5 * 3 + wallThickness, screenHeight + wallThickness, screenWidth / 5 - wallThickness, 0, 4));
         objects.add(new Door(0, screenHeight - wallThickness * 9, wallThickness / 2, wallThickness * 8, 6));
@@ -192,8 +275,14 @@ public class Rooms {
     public void floor2_rei() {
         objects.clear();
         backgroundColor = dark_gray;
-        currentRoom = "FLOOR 1 REI'S ROOM";
+        currentRoom = "FLOOR 2 REI'S ROOM";
         moveButton.setVisible(false);
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
+        if(!collectedToys[1]){toyReiRoom.setVisible(true);}
+
+
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -218,6 +307,9 @@ public class Rooms {
         objects.clear();
         backgroundColor = Color.BLACK;
         currentRoom = "FLOOR 2 KITCHEN";
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
         moveButton.setVisible(false);
 
         objects.add(new Shape(screenWidth / 5 * 2, 0, screenWidth / 5 * 3, screenHeight, dark_gray, "rectangle"));
@@ -266,7 +358,12 @@ public class Rooms {
         objects.clear();
         backgroundColor = dark_gray;
         currentRoom = "FLOOR 2 LIVING ROOM";
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
         moveButton.setVisible(false);
+        if(!collectedToys[2]){toyLivingRoom.setVisible(true);}
+
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));
@@ -302,6 +399,9 @@ public class Rooms {
         objects.clear();
         backgroundColor = grass;
         currentRoom = "FLOOR 2 BALCONY";
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
         moveButton.setVisible(false);
 
         for (int x = 0; x < screenWidth - wallThickness * 9; x = x + 10) {
@@ -322,6 +422,9 @@ public class Rooms {
     public void floor3_attic() {
         objects.clear();
         currentRoom = "FLOOR 3";
+        toyLivingRoom.setVisible(false);
+        toyReiRoom.setVisible(false);
+        toyEntrance.setVisible(false);
         moveButton.setVisible(false);
         backgroundColor = dark_gray;
 
@@ -351,7 +454,7 @@ public class Rooms {
         }
         g.setColor(Color.WHITE); // Set the text color
         g.setFont(new Font("Arial", Font.BOLD, 48)); // Set the font type and size
-        g.drawString(currentRoom, screenWidth/64, screenHeight/8);
+        g.drawString(Integer.toString(Play.currentHour) + ":00  -  " + currentRoom, screenWidth/64, screenHeight/8);
     }
 
     public Color getBackgroundColor() {

@@ -49,10 +49,10 @@ public class Rooms {
         toyEntrance.setBackground(Color.RED);
         toyReiRoom.setBackground(Color.CYAN);
         toyLivingRoom.setBackground(Color.GREEN);
-        moveButton.setBounds(screenWidth + wallThickness-150, 110, 100, 400); // Initial position
-        toyEntrance.setBounds(screenWidth/2, (screenHeight/6)*5, 50, 50); // Initial position
-        toyReiRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50); // Initial position
-        toyLivingRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50); // Initial position
+        moveButton.setBounds(screenWidth + wallThickness-150, 110, 100, 400);
+        toyEntrance.setBounds(screenWidth/2, (screenHeight/6)*5, 50, 50);
+        toyReiRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50);
+        toyLivingRoom.setBounds(screenWidth + wallThickness-150, 110, 50, 50);
 
         moveButton.addActionListener(new ActionListener() {
             @Override
@@ -452,8 +452,8 @@ public class Rooms {
         for (GameObject object : objects) {
             object.draw(g); 
         }
-        g.setColor(Color.WHITE); // Set the text color
-        g.setFont(new Font("Arial", Font.BOLD, 48)); // Set the font type and size
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 48)); 
         g.drawString(Integer.toString(Play.currentHour) + ":00  -  " + currentRoom, screenWidth/64, screenHeight/8);
     }
 

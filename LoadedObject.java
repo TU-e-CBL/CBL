@@ -17,7 +17,6 @@ public class LoadedObject extends GameObject {
         try {
             image = ImageIO.read(new File(imagePath));
             image.getScaledInstance(width, height, image.SCALE_SMOOTH);
-            // Optional: Set width and height based on image size
         } catch (IOException e) {
             System.err.println("Error loading image: " + e.getMessage());
         }

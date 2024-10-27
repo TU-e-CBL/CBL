@@ -5,11 +5,11 @@ import java.awt.Graphics;
 
 public class Character extends GameObject{ 
 
-    protected int wallThickness = Play.screenWidth / 50;
+    private int wallThickness = Play.wallThickness;
     protected int speed = wallThickness / 2;
 
     public Character(int startX, int startY) {
-        super(startX, startY, Play.screenWidth * 12 / 250, Play.screenWidth * 27 / 500);
+        super(startX, startY, Play.wallThickness * 12 / 5, Play.wallThickness * 27 / 10);
     }
 
     @Override

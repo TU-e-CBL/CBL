@@ -49,6 +49,8 @@ public class Rooms {
 
         objects.add(new Door(-wallThickness, 0, 0, screenHeight, 1));
         objects.add(new Door(screenWidth - wallThickness / 2, wallThickness  * 4, wallThickness / 2, wallThickness * 12, 3));
+
+        objects.add(new Fisherman(screenWidth - wallThickness * 3 / 2, wallThickness * 17, wallThickness / 2, wallThickness * 3, gray.darker(), "Miyazawa_residency.txt"));
     }
 
     public void floor1_entrance() {
@@ -75,6 +77,7 @@ public class Rooms {
 
     public void floor1_staircase() {
         objects.clear(); 
+        backgroundColor = dark_gray;
 
         objects.add(new Wall(0, 0, screenWidth / 5 * 3, wallThickness, white));
         objects.add(new Wall(screenWidth / 5 * 4, 0, screenWidth / 5, wallThickness, white));
@@ -92,6 +95,7 @@ public class Rooms {
         objects.add(new Door(screenWidth / 5 * 3 + wallThickness, -wallThickness, screenWidth / 5 - wallThickness, 0, 5));
 
         objects.add(new LoadedObject(-(wallThickness * 8), wallThickness, wallThickness * 20, wallThickness * 4, "Bookshelf.png"));
+        objects.add(new Fisherman(screenWidth - wallThickness * 3 / 2, wallThickness * 3, wallThickness / 2, wallThickness * 3, gray.darker(), "Money.txt"));
     }
 
     public void floor2_bathroom() {
@@ -268,6 +272,7 @@ public class Rooms {
 
     public void floor3_attic() {
         objects.clear();
+        backgroundColor = dark_gray;
 
         objects.add(new Wall(0, 0, screenWidth, wallThickness, white));
         objects.add(new Wall(0, screenHeight - wallThickness, screenWidth, wallThickness, white));

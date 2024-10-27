@@ -6,19 +6,27 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Fisherman extends GameObject {
+public class Fisherman extends GameObject implements Interactable {
+
+    @Override
+    public void interact() {
+        textPanel.interaction(dialogue, textPanel);
+        spoken = true;
+    }
     
-    public static boolean spoken = false;
+    public boolean spoken = false;
+    private Color color;
     private TextPanel textPanel;
     private String[] dialogue;
     
-    private int boundsWidth = 600;
-    private int boundsHeight = 300;
-    private int boundsX = x - (boundsWidth - width) / 2;
-    private int boundsY = y - (boundsHeight + (width + height) / 4);
+    private int boundsWidth = Play.wallThickness * 12;
+    private int boundsHeight = boundsWidth / 2;
+    private int boundsX = x - boundsWidth - (width + height);
+    private int boundsY = y - (boundsHeight - height) / 2;
 
-    public Fisherman(int x, int y, String filepath) {
-        super(x, y, 100, 100);
+    public Fisherman(int x, int y, int width, int height, Color color, String filepath) {
+        super(x, y, width, height);
+        this.color = color;
         dialogue = loadDialogue(filepath);
         textPanel = Play.textPanel;
         textPanel.setParameters(boundsX, boundsY, boundsWidth, boundsHeight);
@@ -26,12 +34,7 @@ public class Fisherman extends GameObject {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(color);
         g.fillRect(x, y, width, height);
-    }
-
-    public void interact() {
-        textPanel.interaction(dialogue, textPanel);
-        spoken = true;
-    }
+    }    
 }

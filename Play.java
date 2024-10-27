@@ -30,6 +30,7 @@ public class Play extends JPanel implements ActionListener {
 
     public static int screenWidth;
     public static int screenHeight;
+    public static int wallThickness;
 
     public Play() {
         timer = new Timer(100, this);
@@ -41,13 +42,14 @@ public class Play extends JPanel implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = (int) screenSize.getWidth();
         screenHeight = (int) screenSize.getHeight();
-        int startX = 300;
-        int startY =  screenHeight / 2 - 45;
+        wallThickness = screenWidth / 50;
+        int startX = wallThickness * 6;
+        int startY =  (screenHeight - wallThickness * 17 / 5) / 2;
 
         player = new Character(startX, startY); 
         rooms = new Rooms();
         collision = new Collision(rooms, this::repaint);
-        rooms.floor2_bathroom();
+        rooms.floor1_staircase();
 
         addKeyListener(
             new KeyAdapter() {
@@ -148,8 +150,10 @@ public class Play extends JPanel implements ActionListener {
             clip.open(audioIn);
     
             // Set the volume using FloatControl
-            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(-40.0f); // Adjust this value for desired volume in decibels (dB)
+            if (soundFilePath.equals("kick.wav")) {
+                FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeControl.setValue(-30.0f); // Adjust this value for desired volume in decibels (dB)
+            }
     
             clip.start(); // Play the sound
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {

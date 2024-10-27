@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public abstract class GameObject {
-    
+
     protected int x, y;
     protected int width;
     protected int height;

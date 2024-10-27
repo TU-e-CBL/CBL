@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 
 public class TextPanel extends JPanel {
-
+    
     public static JLabel lineLabel;
     private JLabel enter;
     

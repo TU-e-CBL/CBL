@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class Character extends GameObject{ 
 
     private int wallThickness = Play.wallThickness;
-    protected int speed = 10;
+    protected int speed = wallThickness / 2;
 
     public Character(int startX, int startY) {
         super(startX, startY, Play.wallThickness * 12 / 5, Play.wallThickness * 27 / 10);

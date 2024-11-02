@@ -39,7 +39,7 @@ public class Door extends GameObject {
     }
 
     public int getTargetRoomId() {
-        return targetRoomId;  // Return the room ID this door leads to
+        return targetRoomId;
     }
   
     public boolean bottom() {

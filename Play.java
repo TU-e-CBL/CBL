@@ -19,6 +19,7 @@ public class Play extends JPanel implements ActionListener {
     private Character player; 
     private Collision collision; 
     private Rooms rooms;
+    private static GameOver gameOver; 
 
     public static boolean upPressed = false;
     public static boolean downPressed = false;
@@ -37,7 +38,7 @@ public class Play extends JPanel implements ActionListener {
 
 
     public Play() {
-        timer = new Timer(10, this);
+        timer = new Timer(100, this);
         timer.start();
 
         setFocusable(true);
@@ -61,6 +62,7 @@ public class Play extends JPanel implements ActionListener {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     int keyCode = e.getKeyCode();
+                    
                     switch (keyCode) {
                         case KeyEvent.VK_W:
                             upPressed = true;
@@ -97,7 +99,6 @@ public class Play extends JPanel implements ActionListener {
                 }
             }
         );
-        // smooth movement
         
         JPanel controlPanel = new JPanel();
         minimizeButton = new JButton("-");
@@ -149,18 +150,17 @@ public class Play extends JPanel implements ActionListener {
 
     public static void playSound(String soundFilePath) {
         try {
-            File soundFile = new File(soundFilePath); // Specify the path to the sound file
+            File soundFile = new File(soundFilePath);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);
     
-            // Set the volume using FloatControl
             if (soundFilePath.equals("kick.wav")) {
                 FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                volumeControl.setValue(-30.0f); // Adjust this value for desired volume in decibels (dB)
+                volumeControl.setValue(-30.0f);
             }
     
-            clip.start(); // Play the sound
+            clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.err.println("Error playing sound: " + e.getMessage());
         }
@@ -168,19 +168,25 @@ public class Play extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Store previous position for collision detection
         int prevX = player.x;
         int prevY = player.y;
+        
 
 
         collision.resolveMovement(player, prevX, prevY, rooms.getObjects(),
                                   upPressed, downPressed, leftPressed, rightPressed);
 
-        // Update character's position
         player.setPosition(player.x, player.y);
 
-        // Repaint to reflect position changes
         repaint();
+        if (currentHour == 22) {
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            JLayeredPane layeredPane = (JLayeredPane) topFrame.getContentPane().getComponent(0);
+
+            gameOver.setBounds(0, 0, screenWidth, screenHeight);
+            layeredPane.add(gameOver, Integer.valueOf(2));
+            gameOver.setVisible(true);
+        }
     }
 
     private void minimizeWindow() {
@@ -215,6 +221,11 @@ public class Play extends JPanel implements ActionListener {
                 StartMenu startMenu = new StartMenu(play);
                 startMenu.setBounds(0, 0, screenWidth, screenHeight);
                 layeredPane.add(startMenu, Integer.valueOf(2));
+
+                gameOver = new GameOver(play);
+                gameOver.setBounds(0, 0, screenWidth, screenHeight);
+                gameOver.setVisible(false);
+                layeredPane.add(gameOver, Integer.valueOf(3));
 
                 frame.add(layeredPane);
                 frame.setUndecorated(true);

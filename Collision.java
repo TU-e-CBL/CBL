@@ -2,15 +2,6 @@ package CBL;
 
 import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Collision {
 
@@ -69,14 +60,13 @@ public class Collision {
         boolean isOnStairsOrLadder = false;
         for (boolean condition : onStairsOrLadder) {
             if (condition) {
-                isOnStairsOrLadder = true; // At least one condition is true
-                break; // No need to check further
+                isOnStairsOrLadder = true; 
+                break; 
             }
         }
     
-        // Adjust speed based on whether the player is on stairs or ladder
         if (isOnStairsOrLadder) {
-            speed = player.speed * 3 / 4; // Slow down if on stairs or ladder
+            speed = player.speed * 3 / 4;
         }
 
         if (upPressed || downPressed || leftPressed ||rightPressed) {
